@@ -9,7 +9,7 @@
         <div class="mt-20">
           <NuxtPage />
         </div>
-        <div class="mt-10">
+        <div class="mt-10 bottom-0">
           <Footer></Footer>
         </div>
       </div>
