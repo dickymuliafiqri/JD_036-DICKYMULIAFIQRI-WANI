@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/device",
     "@nuxthub/core",
+    "@vueuse/nuxt",
   ],
   css: ["~/assets/css/main.css"],
   ui: {

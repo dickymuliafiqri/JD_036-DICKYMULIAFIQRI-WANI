@@ -1,10 +1,50 @@
 <template>
-  <div class="w-max h-full grid grid-cols-6 bg-white rounded-full shadow-md px-3 py-2 gap-4">
-    <div class="col-span-5 flex justify-start items-center gap-1">
-      <span class="font-medium text-xs">WANI | Platform Pekerja Mikro</span>
+  <div class="min-w-[50%] h-max grid bg-white shadow-md px-3 py-2 gap-4 transition-all rounded-full">
+    <div class="row-span-1">
+      <div class="grid grid-cols-6">
+        <div class="col-span-5 flex justify-start items-center gap-1">
+          <span class="font-medium text-xs">WANI | Platform Pekerja Mikro</span>
+        </div>
+        <div class="flex justify-center items-center" @click="isOpen = !isOpen" ref="menu">
+          <Icon name="uil:ellipsis-v" class="text-xl"></Icon>
+        </div>
+      </div>
     </div>
-    <div class="flex justify-center items-center">
-      <Icon name="uil:ellipsis-v" class="text-xl"></Icon>
+  </div>
+  <div
+    v-if="isOpen"
+    class="flex flex-col min-w-[45%] transition-all h-1 bg-white absolute -z-10 rounded-2xl mt-10 shadow-md p-3 gap-1"
+    :class="isOpen ? 'h-max' : 'h-1'"
+  >
+    <div v-for="nav in navLinks">
+      <NuxtLink :to="nav.to" class="font-medium">{{ nav.title }}</NuxtLink>
+    </div>
+    <div>
+      <UButton size="md" color="info">Login</UButton>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { onClickOutside } from "@vueuse/core";
+import { ref, useTemplateRef } from "vue";
+
+const isOpen = ref(false);
+const navLinks = ref([
+  {
+    title: "Home",
+    to: "/",
+  },
+  {
+    title: "Contoh Pekerjaan",
+    to: "#contoh",
+  },
+]);
+
+const target = useTemplateRef<HTMLElement>("menu");
+onClickOutside(target, () => {
+  if (isOpen.value == true) {
+    isOpen.value = !isOpen.value;
+  }
+});
+</script>

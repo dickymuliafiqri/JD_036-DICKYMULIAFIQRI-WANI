@@ -3,10 +3,10 @@
     <div>
       <NuxtRouteAnnouncer />
       <div v-if="isMobile">
-        <div class="min-w-full min-h-16 px-10 pt-5 flex justify-center fixed top-0">
+        <div class="min-w-full min-h-16 px-10 pt-5 flex justify-center fixed top-0 z-50">
           <NavBar />
         </div>
-        <div class="mt-20">
+        <div class="mt-20 scroll-smooth">
           <NuxtPage />
         </div>
         <div class="mt-10 bottom-0">
