@@ -72,8 +72,6 @@ if (loggedIn.value) {
 
 const target = useTemplateRef<HTMLElement>("menu");
 onClickOutside(target, () => {
-  if (isOpen.value == true) {
-    isOpen.value = !isOpen.value;
-  }
+  if (isOpen.value == true) isOpen.value = false;
 });
 </script>
