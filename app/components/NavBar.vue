@@ -20,7 +20,14 @@
       <NuxtLink :to="nav.to" class="font-medium">{{ nav.title }}</NuxtLink>
     </div>
     <div>
-      <UButton size="md" color="info">Login</UButton>
+      <UButton
+        size="xs"
+        color="info"
+        to="/api/auth/google"
+        icon="i-simple-icons-google"
+        label="Login with Google"
+        external
+      />
     </div>
   </div>
 </template>
