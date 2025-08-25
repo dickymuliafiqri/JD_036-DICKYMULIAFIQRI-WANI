@@ -39,7 +39,7 @@
             reloadWindow();
           }
         "
-        :label="'Logout ' + user?.given_name"
+        :label="'Logout - ' + user?.given_name"
         external
       />
     </div>
@@ -59,14 +59,14 @@ const navLinks = ref([
   },
   {
     title: "Contoh Pekerjaan",
-    to: "#contoh",
+    to: "/#contoh",
   },
 ]);
 
 if (loggedIn.value) {
   navLinks.value.push({
     title: "Dashboard",
-    to: "/dashboard",
+    to: "/dashboard#home",
   });
 }
 

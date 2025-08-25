@@ -1,0 +1,21 @@
+import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const usersTable = sqliteTable("users_table", {
+  id: text().primaryKey(),
+  name: text().notNull(),
+  email: text().notNull().unique(),
+  phone: text(),
+});
+
+export const jobsTable = sqliteTable("jobs_table", {
+  id: int().primaryKey({ autoIncrement: true }),
+  title: text().notNull(),
+  desc: text().notNull(),
+  location: text().notNull(),
+  offers: int().notNull(),
+  createdAt: int("created_at", { mode: "timestamp" }).notNull(),
+  expiredAt: int("expired_at", { mode: "timestamp" }).notNull(),
+  owner: text()
+    .notNull()
+    .references(() => usersTable.id),
+});
