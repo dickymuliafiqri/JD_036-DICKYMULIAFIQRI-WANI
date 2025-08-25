@@ -21,11 +21,25 @@
     </div>
     <div>
       <UButton
+        v-if="!loggedIn"
         size="xs"
         color="info"
         to="/api/auth/google"
         icon="i-simple-icons-google"
         label="Login with Google"
+        external
+      />
+      <UButton
+        v-else
+        size="xs"
+        color="error"
+        @click="
+          async () => {
+            await clear();
+            reloadWindow();
+          }
+        "
+        :label="'Logout ' + user?.given_name"
         external
       />
     </div>
@@ -35,6 +49,7 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import { ref, useTemplateRef } from "vue";
+const { loggedIn, user, clear } = useUserSession();
 
 const isOpen = ref(false);
 const navLinks = ref([
@@ -47,6 +62,13 @@ const navLinks = ref([
     to: "#contoh",
   },
 ]);
+
+if (loggedIn.value) {
+  navLinks.value.push({
+    title: "Dashboard",
+    to: "/dashboard",
+  });
+}
 
 const target = useTemplateRef<HTMLElement>("menu");
 onClickOutside(target, () => {

@@ -16,7 +16,9 @@
           </div>
           <div class="flex flex-col justify-center items-center mt-5 gap-2">
             <div>Kamu Tertarik ?</div>
-            <UButton color="info">Daftar Sekarang</UButton>
+            <UButton color="info" :to="loggedIn ? '/dashboard' : '/api/auth/google'" :external="loggedIn ? false : true"
+              >Daftar Sekarang</UButton
+            >
           </div>
         </div>
       </div>
@@ -30,7 +32,13 @@
           <div class="mt-3">dan masih banyak lagi, tulis aja kamu perlu bantuan apa...</div>
           <div class="mt-1 flex gap-1 justify-center">
             <UInput color="info" placeholder="Tolong dong ..." />
-            <UButton size="md" color="info">Kirim</UButton>
+            <UButton
+              size="md"
+              color="info"
+              :to="loggedIn ? '/dashboard' : '/api/auth/google'"
+              :external="loggedIn ? false : true"
+              >Kirim</UButton
+            >
           </div>
         </div>
       </div>
@@ -40,6 +48,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+const { loggedIn } = useUserSession();
 
 const offers = ref([
   {
