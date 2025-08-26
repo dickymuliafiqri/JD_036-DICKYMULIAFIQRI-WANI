@@ -1,47 +1,54 @@
 <template>
-  <div class="min-w-[50%] h-max grid bg-white shadow-md px-3 py-2 gap-4 transition-all rounded-full">
-    <div class="row-span-1">
-      <div class="grid grid-cols-6">
-        <NuxtLink class="col-span-5 flex justify-start items-center gap-1" to="/">
-          <span class="font-medium text-xs">WANI | Platform Pekerja Mikro</span>
-        </NuxtLink>
-        <div class="flex justify-center items-center" @click="isOpen = !isOpen" ref="menu">
-          <Icon name="uil:ellipsis-v" class="text-xl"></Icon>
+  <div :class="menuClasses" class="w-full h-18 bg-raka-red-20 border-b-3 shadow-md px-3 py-2 gap-4 transition-all">
+    <div class="grid grid-cols-3 h-13">
+      <div class="col-span-1 my-auto h-max flex justify-start items-center">
+        <div
+          class="w-max flex justify-center p-1 rounded-full bg-white border-2 shadow-solid-sm"
+          @click="toggleMenu"
+          ref="menu"
+        >
+          <Icon name="ic:round-menu" class="text-2xl bg-raka-blue-10"></Icon>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    v-if="isOpen"
-    class="flex flex-col min-w-[45%] transition-all h-1 bg-white absolute -z-10 rounded-2xl mt-10 shadow-md p-3 gap-1"
-    :class="isOpen ? 'h-max' : 'h-1'"
-  >
-    <div v-for="nav in navLinks" class="w-full">
-      <NuxtLink :to="nav.to" class="font-medium flex" :class="nav.class">{{ nav.title }}</NuxtLink>
-    </div>
-    <div>
-      <UButton
+      <div class="col-span-1 my-auto h-max"></div>
+      <NuxtLink
         v-if="!loggedIn"
-        size="xs"
-        color="info"
+        class="col-span-1 my-auto h-max flex justify-end items-center"
         to="/api/auth/google"
-        icon="i-simple-icons-google"
-        label="Login with Google"
         external
-      />
-      <UButton
+      >
+        <h1 class="title text-4xl text-white">JOIN!</h1>
+      </NuxtLink>
+      <div
         v-else
-        size="xs"
-        color="error"
+        class="col-span-1 my-auto h-max flex justify-end items-center"
         @click="
           async () => {
             await clear();
             reloadWindow();
           }
         "
-        :label="'Logout - ' + user?.given_name"
-        external
-      />
+      >
+        <h1 class="title text-2xl text-white">LOGOUT!</h1>
+      </div>
+    </div>
+    <div v-if="isOpen" class="w-full flex flex-col items-center mt-3">
+      <div v-for="nav in navLinks" class="w-full flex justify-end">
+        <NuxtLink :to="nav.to" class="font-medium flex title text-2xl text-white my-1" :class="nav.class">{{
+          nav.title
+        }}</NuxtLink>
+      </div>
+      <div class="mt-10">
+        <UButton
+          v-if="!loggedIn"
+          size="md"
+          color="info"
+          to="/api/auth/google"
+          icon="i-simple-icons-google"
+          label="Login with Google"
+          external
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +58,22 @@ import { onClickOutside } from "@vueuse/core";
 import { ref, useTemplateRef } from "vue";
 const { loggedIn, user, clear } = useUserSession();
 
+const menuClasses = ref("");
 const isOpen = ref(false);
+const extendNavbar = ref(false);
+
+async function toggleMenu() {
+  extendNavbar.value = !extendNavbar.value;
+  if (extendNavbar.value) {
+    menuClasses.value = "h-screen";
+    await sleep(200);
+    isOpen.value = !isOpen.value;
+  } else {
+    isOpen.value = !isOpen.value;
+    menuClasses.value = "h-18";
+  }
+}
+
 const navLinks = ref([
   {
     title: "Contoh Pekerjaan",
@@ -86,6 +108,6 @@ if (loggedIn.value) {
 
 const target = useTemplateRef<HTMLElement>("menu");
 onClickOutside(target, () => {
-  if (isOpen.value == true) isOpen.value = false;
+  if (extendNavbar.value) toggleMenu();
 });
 </script>

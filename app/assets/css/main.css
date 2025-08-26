@@ -1,8 +1,20 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@theme {
+  --color-raka-red-30: #811209;
+  --color-raka-red-20: #dd3a33;
+  --color-raka-red-10: #de4d5a;
+  --color-raka-blue-10: #83aad3;
+  --color-raka-blue-20: #75afd5;
+
+  --shadow-solid-sm: 2px 2px 0px rgba(0, 0, 0, 1);
+  --shadow-solid-md: 4px 4px 0px rgba(0, 0, 0, 1);
+  --shadow-solid-xl: 6px 6px 0px rgba(0, 0, 0, 1);
+}
+
 html {
-  font-family: "League Spartan";
+  font-family: "Archivo";
   scroll-behavior: smooth;
 }
 
@@ -11,4 +23,8 @@ body {
   background-image: linear-gradient(to right, #ceedff 1px, transparent 1px),
     linear-gradient(to bottom, #ceedff 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+.title {
+  font-family: "Changa One";
 }
