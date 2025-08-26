@@ -3,7 +3,7 @@
     <div class="w-full flex justify-center items-center flex-col text-center">
       <div class="text-xl font-bold">WANI!</div>
       <div class="font-medium mb-3">Solusi Para Pencari Kerja Mikro</div>
-      <div>Mendorong kekuatan ekonomi masyarakat dalam tingkat mikro.</div>
+      <div>Mendorong kekuatan ekonomi masyarakat pada tingkat mikro.</div>
       <div class="w-48 bg-white rounded-xl p-2 shadow rotate-3 transition-all my-5">
         <img src="/images/hero.jpg" class="rounded" />
       </div>

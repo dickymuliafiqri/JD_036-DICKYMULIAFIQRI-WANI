@@ -58,6 +58,16 @@ const navLinks = ref([
     to: "/#contoh",
     class: "",
   },
+  {
+    title: "Tentang",
+    to: "/tentang",
+    class: "",
+  },
+  {
+    title: "Kebijakan Privasi",
+    to: "/privasi",
+    class: "",
+  },
 ]);
 
 if (loggedIn.value) {
@@ -65,6 +75,12 @@ if (loggedIn.value) {
     title: "Dashboard",
     to: "/dashboard#home",
     class: "",
+  });
+
+  navLinks.value.push({
+    title: "Profile",
+    to: "/profile",
+    class: "pt-1 mt-1 border-t-1",
   });
 }
 
