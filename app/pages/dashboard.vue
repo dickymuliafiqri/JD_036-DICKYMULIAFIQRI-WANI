@@ -141,21 +141,30 @@ async function deleteJob(id: number) {
   console.log(id);
   await $fetch("/api/job/" + id, {
     method: "DELETE",
-  });
-
-  toast.add({ title: "Success", description: "Job berhasil dihapus", color: "success" });
-  await getJobsData();
+  })
+    .then(async () => {
+      toast.add({ title: "Success", description: "Job berhasil dihapus", color: "success" });
+      await getJobsData();
+    })
+    .catch(() => {
+      toast.add({ title: "Failure", description: "Job gagal dihapus", color: "error" });
+    });
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   await $fetch("/api/job", {
     method: "POST",
     body: event.data,
-  });
-  toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
-  addDialogOpen.value = false;
+  })
+    .then(async () => {
+      toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
+      addDialogOpen.value = false;
 
-  await getJobsData();
+      await getJobsData();
+    })
+    .catch(() => {
+      toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });
+    });
 }
 </script>
 
