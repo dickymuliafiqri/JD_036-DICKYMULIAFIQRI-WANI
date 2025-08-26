@@ -14,7 +14,12 @@ CREATE TABLE `users_table` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
-	`phone` text
+	`nik` integer,
+	`location` text,
+	`phone` text,
+	`about` text,
+	`speciality` text,
+	`credit` integer DEFAULT 0 NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_table_email_unique` ON `users_table` (`email`);

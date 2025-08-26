@@ -8,8 +8,12 @@ export default eventHandler(async (event) => {
 });
 
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
-  const { phone } = await useValidatedBody(event, {
+  const { phone, location, about, speciality } = await useValidatedBody(event, {
     phone: z.number().min(10),
+    // nik: z.number().min(16).max(16),
+    location: z.string().min(2),
+    about: z.string().min(16),
+    speciality: z.array(z.string()),
   });
   const { user } = await requireUserSession(event);
 
@@ -17,6 +21,9 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     .update(tables.usersTable)
     .set({
       phone: phone,
+      location: location,
+      about: about,
+      speciality: (speciality as Array<string>).join(","),
     })
     .where(eq(tables.usersTable.id, user.sub))
     .returning()

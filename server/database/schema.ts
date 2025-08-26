@@ -4,7 +4,12 @@ export const usersTable = sqliteTable("users_table", {
   id: text().primaryKey(),
   name: text().notNull(),
   email: text().notNull().unique(),
+  nik: int(),
+  location: text(),
   phone: text(),
+  about: text(),
+  speciality: text(),
+  credit: int().notNull().default(0),
 });
 
 export const jobsTable = sqliteTable("jobs_table", {
