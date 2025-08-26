@@ -2,9 +2,9 @@
   <div class="min-w-[50%] h-max grid bg-white shadow-md px-3 py-2 gap-4 transition-all rounded-full">
     <div class="row-span-1">
       <div class="grid grid-cols-6">
-        <div class="col-span-5 flex justify-start items-center gap-1">
+        <NuxtLink class="col-span-5 flex justify-start items-center gap-1" to="/">
           <span class="font-medium text-xs">WANI | Platform Pekerja Mikro</span>
-        </div>
+        </NuxtLink>
         <div class="flex justify-center items-center" @click="isOpen = !isOpen" ref="menu">
           <Icon name="uil:ellipsis-v" class="text-xl"></Icon>
         </div>
@@ -16,8 +16,8 @@
     class="flex flex-col min-w-[45%] transition-all h-1 bg-white absolute -z-10 rounded-2xl mt-10 shadow-md p-3 gap-1"
     :class="isOpen ? 'h-max' : 'h-1'"
   >
-    <div v-for="nav in navLinks">
-      <NuxtLink :to="nav.to" class="font-medium">{{ nav.title }}</NuxtLink>
+    <div v-for="nav in navLinks" class="w-full">
+      <NuxtLink :to="nav.to" class="font-medium flex" :class="nav.class">{{ nav.title }}</NuxtLink>
     </div>
     <div>
       <UButton
@@ -54,19 +54,17 @@ const { loggedIn, user, clear } = useUserSession();
 const isOpen = ref(false);
 const navLinks = ref([
   {
-    title: "Home",
-    to: "/",
-  },
-  {
     title: "Contoh Pekerjaan",
     to: "/#contoh",
+    class: "",
   },
 ]);
 
 if (loggedIn.value) {
-  navLinks.value.push({
+  navLinks.value.unshift({
     title: "Dashboard",
     to: "/dashboard#home",
+    class: "",
   });
 }
 
