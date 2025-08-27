@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full p-2 rounded-2xl border-2 shadow-solid-md bg-raka-red-20">
+  <div class="w-full p-4 rounded-2xl border-2 shadow-solid-md bg-raka-red-20">
     <div class="flex gap-3">
       <div>
         <UAvatar :src="data.users_table.avatar"></UAvatar>
@@ -7,9 +7,9 @@
       <div class="w-full">
         <div class="text-white">
           <div class="title text-xl">{{ data.jobs_table.title }}</div>
-          <div class="-mt-1">
+          <div class="text-sm">
             <div>Category : {{ data.jobs_table.category }}</div>
-            <div class="-mt-2">
+            <div>
               Posted by <span class="font-bold"> {{ data.users_table.name }}</span>
             </div>
           </div>
