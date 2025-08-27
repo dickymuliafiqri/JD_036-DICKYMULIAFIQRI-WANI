@@ -22,6 +22,38 @@
 
 <script setup lang="ts">
 const { isMobile } = useDevice();
+
+useHead({
+  title: "WANI! - Platform Pencari Kerja Mikro",
+  meta: [
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    {
+      name: "description",
+      content:
+        "WANI! adalah platform pencari kerja mikro yang menghubungkan pekerja dengan peluang kerja jangka pendek dan tugas-tugas kecil. Temukan pekerjaan yang sesuai dengan keahlian Anda dan mulai menghasilkan uang hari ini!",
+    },
+    { name: "keywords", content: "kerja mikro, pekerjaan jangka pendek, tugas kecil, freelance, peluang kerja" },
+    { name: "author", content: "WANI!" },
+    { property: "og:title", content: "WANI! - Platform Pencari Kerja Mikro" },
+    {
+      property: "og:description",
+      content:
+        "WANI! adalah platform pencari kerja mikro yang menghubungkan pekerja dengan peluang kerja jangka pendek dan tugas-tugas kecil. Temukan pekerjaan yang sesuai dengan keahlian Anda dan mulai menghasilkan uang hari ini!",
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://wani.nuxt.dev" },
+    { property: "og:image", content: "https://wani.nuxt.dev/og-image.jpg" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "WANI! - Platform Pencari Kerja Mikro" },
+    {
+      name: "twitter:description",
+      content:
+        "WANI! adalah platform pencari kerja mikro yang menghubungkan pekerja dengan peluang kerja jangka pendek dan tugas-tugas kecil. Temukan pekerjaan yang sesuai dengan keahlian Anda dan mulai menghasilkan uang hari ini!",
+    },
+    { name: "twitter:image", content: "https://wani.nuxt.dev/twitter-image.jpg" },
+  ],
+  link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+});
 </script>
 
 <style>
