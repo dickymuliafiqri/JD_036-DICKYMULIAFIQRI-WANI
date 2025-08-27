@@ -32,7 +32,7 @@
         <h1 class="title text-2xl text-white">LOGOUT!</h1>
       </div>
     </div>
-    <div v-if="isOpen" class="w-full flex flex-col items-center mt-3">
+    <div v-if="isOpen" class="w-full flex flex-col items-center mt-5">
       <div v-for="nav in navLinks" class="w-full flex justify-end">
         <NuxtLink :to="nav.to" class="font-medium flex title text-2xl text-white my-1" :class="nav.class">{{
           nav.title

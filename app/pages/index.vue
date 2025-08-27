@@ -1,75 +1,105 @@
 <template>
-  <UContainer>
-    <div class="w-full flex justify-center items-center flex-col text-center">
-      <div class="text-xl font-bold">WANI!</div>
-      <div class="font-medium mb-3">Solusi Para Pencari Kerja Mikro</div>
-      <div>Mendorong kekuatan ekonomi masyarakat pada tingkat mikro.</div>
-      <div class="w-48 bg-white rounded-xl p-2 shadow rotate-3 transition-all my-5">
-        <img src="/images/hero.jpg" class="rounded" />
-      </div>
-      <div class="mt-3">
-        <div class="">Solusi Yang Kami Tawarkan</div>
-        <div class="bg-white rounded-xl shadow w-62 mt-2 p-3">
-          <div v-for="offer in offers" class="text-start p-3">
-            <div class="font-medium">{{ offer.title }}</div>
-            <div class="text-sm">{{ offer.desc }}</div>
-          </div>
-          <div class="flex flex-col justify-center items-center mt-5 gap-2">
-            <div>Kamu Tertarik ?</div>
-            <UButton color="info" :to="loggedIn ? '/dashboard' : '/api/auth/google'" :external="loggedIn ? false : true"
-              >Daftar Sekarang</UButton
-            >
-          </div>
-        </div>
-      </div>
-      <div class="mt-5" id="contoh">
-        <div>Contoh Pekerjaan Yang Lain</div>
-        <div class="mt-2">
-          <UCarousel v-slot="{ item }" loop auto-scroll :items="items" class="w-full max-w-xs mx-auto">
-            <img :src="item.photo" width="320" height="320" class="rounded-lg" />
-            <div>{{ item.desc }}</div>
-          </UCarousel>
-          <div class="mt-3">dan masih banyak lagi, tulis aja kamu perlu bantuan apa...</div>
-          <div class="mt-1 flex gap-1 justify-center">
-            <UInput color="info" placeholder="Tolong dong ..." />
-            <UButton
-              size="md"
-              color="info"
-              :to="loggedIn ? '/dashboard' : '/api/auth/google'"
-              :external="loggedIn ? false : true"
-              >Kirim</UButton
-            >
-          </div>
-        </div>
+  <div class="w-full">
+    <div class="absolute -z-10">
+      <div class="absolute inset-0 bg-gradient-to-r from-black opacity-50"></div>
+      <img src="/images/hero.jpg" />
+    </div>
+    <div class="text-white ml-8 pt-8">
+      <div class="absolute text-amber-300 ml-33 -mt-4 text-4xl font-black">*</div>
+      <div class="font-bold">Sejak Kapan Cari</div>
+      <div class="title text-4xl w-64">CUAN SEGAMPANG INI??</div>
+    </div>
+    <SolidShadowButton
+      text="BURUAN GABUNG SEKARANG!"
+      inner-class="bg-raka-blue-20 -rotate-2"
+      class="mt-3 ml-6"
+      :exec="
+        () => {
+          console.log('ditekan');
+        }
+      "
+    />
+  </div>
+  <UContainer class="mt-20">
+    <div class="w-full flex justify-center">
+      <SearchBar />
+    </div>
+    <div class="w-full flex flex-col justify-center items-center mt-8">
+      <div class="title text-4xl">Kategori</div>
+      <div class="w-full flex flex-wrap justify-between my-5 gap-5">
+        <CategoryButton v-for="cat in categoryList" :icon="cat.icon" :name="cat.name" :exec="cat.exec" />
       </div>
     </div>
   </UContainer>
+  <div id="contoh" class="w-full flex flex-col justify-center items-center mt-8 border-t-2">
+    <UContainer>
+      <div class="title flex items-center gap-2 mt-6">
+        <span class="text-amber-300 text-4xl font-bold">*</span>
+        <div class="text-2xl">Pekerjaan Baru!</div>
+      </div>
+      <div class="mt-3 flex flex-col gap-5">
+        <JobCard v-for="job in jobList" :data="job" />
+      </div>
+    </UContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 const { loggedIn } = useUserSession();
 
-const offers = ref([
-  {
-    title: "Stay Productive",
-    desc: "Dapetin uang sembari menikmati waktu luang dengan bantuin orang :)",
-  },
-  {
-    title: "Cari Pekerja Mikro",
-    desc: "Kamu perlu orang untuk stalking gebetan, cari di sini aja",
-  },
-  {
-    title: "Jadi Mitra",
-    desc: "Kamu bisa jadi mitra kami, nanti akan dibayar kalo kerjaannya udah kelar. Say NO to nganggur",
-  },
-]);
+const jobList = ref<Array<any>>([]);
+onMounted(async () => {
+  await $fetch("/api/job").then((res) => {
+    for (const data of res) {
+      jobList.value.push(data);
+      if (jobList.value.length > 2) break;
+    }
+  });
+});
 
-const items = ref([
-  { photo: "/images/mekanik.jpg", desc: "Mekanik Motor" },
-  { photo: "/images/stalking-pacar.jpg", desc: "Tukang Stalking" },
-  { photo: "/images/temen-curhat.jpg", desc: "Temen Curhat/Nongkrong" },
-  { photo: "/images/temen-jogging.jpg", desc: "Temen Jogging" },
-  { photo: "/images/tukang-angkat.jpg", desc: "Tukang Angkat Barang" },
+const categoryList = ref([
+  {
+    icon: "ic:baseline-construction",
+    name: "Utilitas",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
+  {
+    icon: "ic:outline-home",
+    name: "Servis",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
+  {
+    icon: "ic:baseline-grass",
+    name: "Kebun",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
+  {
+    icon: "ic:baseline-add-reaction",
+    name: "Komunitas",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
+  {
+    icon: "ic:baseline-pets",
+    name: "Pet Care",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
+  {
+    icon: "ic:baseline-loop",
+    name: "Lain - Lain",
+    exec: () => {
+      window.alert("Halo");
+    },
+  },
 ]);
 </script>

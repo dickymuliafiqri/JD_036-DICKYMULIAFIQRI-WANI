@@ -6,7 +6,7 @@
         <div class="min-w-full h-max flex justify-center fixed top-0 z-50 bg-red-500">
           <NavBar />
         </div>
-        <div class="min-h-screen mt-20">
+        <div class="min-h-screen mt-18">
           <NuxtPage />
         </div>
         <div class="mt-10">
