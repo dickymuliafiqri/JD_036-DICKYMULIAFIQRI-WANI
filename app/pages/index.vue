@@ -15,7 +15,11 @@
       class="mt-3 ml-6"
       :exec="
         () => {
-          console.log('ditekan');
+          if (!loggedIn) {
+            navigateTo('/api/auth/google');
+          } else {
+            navigateTo('/dashboard');
+          }
         }
       "
     />
@@ -26,20 +30,26 @@
     </div>
     <div class="w-full flex flex-col justify-center items-center mt-8">
       <div class="title text-4xl">Kategori</div>
-      <div class="w-96 flex flex-wrap justify-between my-5 gap-5">
-        <CategoryButton v-for="cat in categoryList" :icon="cat.icon" :name="cat.name" :exec="cat.exec" />
-      </div>
+      <PageCategoryList class="my-5" />
     </div>
   </UContainer>
-  <div id="contoh" class="w-full flex flex-col justify-center items-center mt-8 border-t-2">
+  <div class="w-full flex flex-col justify-center items-center mt-8 border-t-2">
     <UContainer>
       <div class="title flex items-center gap-2 mt-6">
         <span class="text-amber-300 text-4xl font-bold">*</span>
         <div class="text-2xl">Pekerjaan Baru!</div>
       </div>
-      <div class="mt-3 flex flex-col gap-5">
-        <JobCard v-for="job in jobList" :data="job" />
+      <PageJobList class="mt-3" />
+    </UContainer>
+  </div>
+  <div id="rating" class="w-full flex flex-col justify-center items-center mt-8 border-t-2">
+    <UContainer>
+      <div class="title flex items-center gap-2 mt-6">
+        <span class="text-amber-300 text-4xl font-bold">*</span>
+        <div class="text-2xl">Rating Pengguna!</div>
       </div>
+      <PageRatingCarousel class="mt-3" />
+      <PageRatingForm v-if="loggedIn" class="mt-5" />
     </UContainer>
   </div>
 </template>
@@ -47,59 +57,4 @@
 <script setup lang="ts">
 import { ref } from "vue";
 const { loggedIn } = useUserSession();
-
-const jobList = ref<Array<any>>([]);
-onMounted(async () => {
-  await $fetch("/api/job").then((res) => {
-    for (const data of res) {
-      jobList.value.push(data);
-      if (jobList.value.length > 2) break;
-    }
-  });
-});
-
-const categoryList = ref([
-  {
-    icon: "ic:baseline-construction",
-    name: "Utilitas",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-  {
-    icon: "ic:outline-home",
-    name: "Servis",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-  {
-    icon: "ic:baseline-grass",
-    name: "Kebun",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-  {
-    icon: "ic:baseline-add-reaction",
-    name: "Komunitas",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-  {
-    icon: "ic:baseline-pets",
-    name: "Pet Care",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-  {
-    icon: "ic:baseline-loop",
-    name: "Lainnya",
-    exec: () => {
-      window.alert("Halo");
-    },
-  },
-]);
 </script>

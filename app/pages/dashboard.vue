@@ -50,27 +50,9 @@
           </div>
         </div>
       </div>
-      <div class="w-full h-max mt-16 flex flex-col gap-2">
-        <div v-for="job in jobsList" class="bg-white w-full h-full rounded-xl p-2 shadow text-wrap overflow-hidden">
-          <div class="font-medium">{{ job.jobs_table.title }}</div>
-          <div class="w-full text-xs break-words">{{ job.jobs_table.desc }}</div>
-          <hr class="my-2" />
-          <div class="w-full flex gap-2 justify-between">
-            <div class="text-xs"><Icon name="ic:baseline-location-on" />{{ job.jobs_table.location }}</div>
-            <div class="text-xs"><span class="font-bold"> Rp. </span> {{ job.jobs_table.offers }}</div>
-            <div class="text-xs">
-              <Icon name="ic:baseline-event-busy" />{{ dayjs(job.jobs_table.expiredAt).format("YYYY-DD-MM") }}
-            </div>
-          </div>
-          <div class="w-full flex gap-2 items-center justify-between">
-            <div class="text-xs"><Icon name="ic:sharp-person" />{{ job.users_table.name[0] + "*****" }}</div>
-            <div v-if="job.jobs_table.owner == user?.sub">
-              <UBadge label="Hapus" size="sm" color="error" @click="deleteJob(job.jobs_table.id)" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="w-full h-max mt-16 flex flex-col gap-2"></div>
     </div>
+    <PageJobList />
   </UContainer>
 </template>
 

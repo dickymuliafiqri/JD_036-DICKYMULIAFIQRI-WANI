@@ -1,5 +1,5 @@
 <template>
-  <div
+  <button
     class="w-max"
     @click="
       () => {
@@ -8,7 +8,7 @@
     "
   >
     <div :class="innerClass" class="rounded-xl border-2 text-black p-2 shadow-solid-md title">{{ text }}</div>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">

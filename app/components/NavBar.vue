@@ -10,7 +10,9 @@
           <Icon name="ic:round-menu" class="text-2xl bg-raka-blue-10"></Icon>
         </div>
       </div>
-      <div class="col-span-1 my-auto h-max"></div>
+      <div class="w-full col-span-1 my-auto h-max">
+        <NuxtLink to="/" class="flex justify-center items-center w-full title text-white text-2xl">WANI!</NuxtLink>
+      </div>
       <NuxtLink
         v-if="!loggedIn"
         class="col-span-1 my-auto h-max flex justify-end items-center"
@@ -75,11 +77,6 @@ async function toggleMenu() {
 }
 
 const navLinks = ref([
-  {
-    title: "Contoh Pekerjaan",
-    to: "/#contoh",
-    class: "",
-  },
   {
     title: "Tentang",
     to: "/tentang",
