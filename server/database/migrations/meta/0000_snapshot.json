@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "75ffeda4-a2be-47d5-86a5-e57f99c5d2df",
+  "id": "ea12eb88-bbc4-48b7-bab6-d105ef33f6d5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs_table": {
@@ -23,6 +23,13 @@
         },
         "desc": {
           "name": "desc",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "category": {
+          "name": "category",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -84,6 +91,65 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "ratings_table": {
+      "name": "ratings_table",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "raterId": {
+          "name": "raterId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "review": {
+          "name": "review",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ratings_table_raterId_users_table_id_fk": {
+          "name": "ratings_table_raterId_users_table_id_fk",
+          "tableFrom": "ratings_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "raterId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "users_table": {
       "name": "users_table",
       "columns": {
@@ -99,6 +165,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "email": {

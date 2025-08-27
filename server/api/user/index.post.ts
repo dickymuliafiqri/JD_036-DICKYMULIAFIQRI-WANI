@@ -13,6 +13,7 @@ export async function postUserData(event: H3Event<EventHandlerRequest>) {
     .values({
       id: user.sub,
       name: user.name,
+      avatar: user.picture,
       email: user.email,
     })
     .returning()

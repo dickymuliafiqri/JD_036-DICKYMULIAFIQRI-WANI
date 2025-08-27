@@ -96,7 +96,7 @@ const categoryList = ref([
   },
   {
     icon: "ic:baseline-loop",
-    name: "Lain - Lain",
+    name: "Lainnya",
     exec: () => {
       window.alert("Halo");
     },

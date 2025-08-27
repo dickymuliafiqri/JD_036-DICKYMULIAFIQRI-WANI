@@ -19,11 +19,15 @@
           <div class="">
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
               <UFormField label="Judul" name="title">
-                <UInput v-model="state.title" />
+                <UInput v-model="state.title" placeholder="Tulis Judul" />
               </UFormField>
 
               <UFormField label="Deskripsi" name="desc">
-                <UTextarea v-model="state.desc" autoresize :maxrows="4" />
+                <UTextarea v-model="state.desc" autoresize :maxrows="4" placeholder="Tulis Deskripsi" />
+              </UFormField>
+
+              <UFormField label="Kategori" name="category">
+                <USelect v-model="state.category" :items="jobCategories" />
               </UFormField>
 
               <UFormField label="Lokasi" name="location">
@@ -82,6 +86,7 @@ definePageMeta({
 });
 
 const { user } = useUserSession();
+const jobCategories = ref(["Utilitas", "Servis", "Kebun", "Komunitas", "Pet Care", "Lainnya"]);
 const toast = useToast();
 const addDialogOpen = ref(false);
 const jobsList = ref<Array<any>>([]);
@@ -114,6 +119,7 @@ onClickOutside(target, () => {
 const schema = z.object({
   title: z.string().min(8, "Minimal 8 karakter"),
   desc: z.string().min(16, "Minimal 16 karakter"),
+  category: z.string(),
   location: z.string().min(2, "Minimal 2 karakter"),
   offers: z.number().min(10000, "Harga penawaran minimal 10.000"),
   expiredAt: z.string(),
@@ -123,6 +129,7 @@ type Schema = z.output<typeof schema>;
 const state = ref<Partial<Schema>>({
   title: "",
   desc: "",
+  category: jobCategories.value[jobCategories.value.length - 1],
   location: "",
   offers: 10000,
   expiredAt: "",

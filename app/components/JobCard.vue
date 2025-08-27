@@ -2,7 +2,7 @@
   <div class="w-full p-4 rounded-2xl border-2 shadow-solid-md bg-raka-red-20">
     <div class="flex gap-3">
       <div>
-        <UAvatar :src="data.users_table.avatar"></UAvatar>
+        <UAvatar :src="data.users_table.avatar" :alt="data.users_table.name"></UAvatar>
       </div>
       <div class="w-full">
         <div class="text-white">
