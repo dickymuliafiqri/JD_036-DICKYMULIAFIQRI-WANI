@@ -14,7 +14,7 @@ export const usersTable = sqliteTable("users_table", {
 });
 
 export const jobsTable = sqliteTable("jobs_table", {
-  id: int().primaryKey({ autoIncrement: true }),
+  id: text().primaryKey(),
   title: text().notNull(),
   desc: text().notNull(),
   category: text().notNull(),

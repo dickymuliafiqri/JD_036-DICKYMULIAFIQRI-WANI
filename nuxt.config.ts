@@ -5,7 +5,14 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@nuxtjs/device", "@nuxthub/core", "@vueuse/nuxt", "nuxt-auth-utils"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/device",
+    "@nuxthub/core",
+    "@vueuse/nuxt",
+    "nuxt-auth-utils",
+    "@pinia/nuxt",
+  ],
   css: ["~/assets/css/main.css"],
   ui: {
     colorMode: false,

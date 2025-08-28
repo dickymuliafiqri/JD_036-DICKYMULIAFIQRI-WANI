@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { EventHandlerRequest, H3Event } from "h3";
 import { useValidatedBody, z } from "h3-zod";
 import { tables, useDB } from "~~/server/utils/database";
@@ -25,6 +26,7 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
     const add = await useDB()
       .insert(tables.jobsTable)
       .values({
+        id: uuidv4(),
         title: title,
         desc: desc,
         category: category,
@@ -43,6 +45,7 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
   } else {
     throw createError({
       statusCode: 402,
+      statusText: "Saldo tidak mencukupi",
     });
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ea12eb88-bbc4-48b7-bab6-d105ef33f6d5",
+  "id": "bf0a2465-3440-4749-bbb2-e29e04646690",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs_table": {
@@ -9,10 +9,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "title": {
           "name": "title",

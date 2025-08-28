@@ -92,7 +92,7 @@ const navLinks = ref([
 if (loggedIn.value) {
   navLinks.value.unshift({
     title: "Dashboard",
-    to: "/dashboard#home",
+    to: "/dashboard",
     class: "",
   });
 

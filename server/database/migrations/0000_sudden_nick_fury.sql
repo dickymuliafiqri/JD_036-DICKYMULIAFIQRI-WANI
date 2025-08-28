@@ -1,5 +1,5 @@
 CREATE TABLE `jobs_table` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`title` text NOT NULL,
 	`desc` text NOT NULL,
 	`category` text NOT NULL,

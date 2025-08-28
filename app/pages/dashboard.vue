@@ -74,9 +74,8 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
-import { onClickOutside } from "@vueuse/core";
 import { ref, useTemplateRef } from "vue";
+import { onClickOutside } from "@vueuse/core";
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
@@ -141,9 +140,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     .then(async () => {
       toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
       addDialogOpen.value = false;
+      await jobsStore.getJobList();
     })
-    .catch(() => {
-      toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });
+    .catch((e) => {
+      alertStore.text = e.statusText;
+      alertStore.isOpen = true;
     });
 }
 
@@ -155,17 +156,24 @@ async function sendTopup() {
     body: JSON.stringify({
       amount: topupAmount.value,
     }),
-  })
-    .then(async (e) => {
-      toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
-      await navigateTo(e.invoiceUrl, {
-        external: true,
-      });
-    })
-    .catch((e) => {
-      toast.add({ title: "Error", description: e.message, color: "error" });
+  }).then(async (e) => {
+    await navigateTo(e.invoiceUrl, {
+      external: true,
     });
+  });
 }
+
+// Mounted
+onMounted(async () => {
+  const userData = await $fetch("/api/user");
+  if (!userData[0]?.phone) {
+    alertStore.exec = async () => {
+      await navigateTo("/profile");
+    };
+    alertStore.text = "Silahkan isi nomor handphone terlebih dahulu";
+    alertStore.isOpen = true;
+  }
+});
 </script>
 
 <style scoped>

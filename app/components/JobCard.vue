@@ -54,12 +54,20 @@
 const props = defineProps({
   data: null,
 });
-const emit = defineEmits(["reloadJobs"]);
 
 const { user } = useUserSession();
 
 async function showJob() {
-  window.alert("Nanti diarahin ke " + props.data.users_table.name);
+  await navigateTo(
+    `https://wa.me/62${parseInt(
+      props.data.users_table.phone
+    )}?text=Halo saya mau apply job, tolong klik tautan berikut.\nhttp://localhost:3000/api/job/${
+      props.data.jobs_table.id
+    }`,
+    {
+      external: true,
+    }
+  );
 }
 
 async function editJob() {
@@ -71,7 +79,7 @@ async function deleteJob(id: number) {
   await $fetch("/api/job/" + id, {
     method: "DELETE",
   }).then(async () => {
-    emit("reloadJobs", true);
+    await jobsStore.getJobList();
   });
 }
 </script>

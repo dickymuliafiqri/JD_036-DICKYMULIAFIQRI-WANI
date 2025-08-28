@@ -14,9 +14,8 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["ok"]);
-
-function closeAlert() {
-  emit("ok", true);
+async function closeAlert() {
+  await alertStore.exec();
+  alertStore.clear();
 }
 </script>
