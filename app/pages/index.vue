@@ -1,4 +1,5 @@
 <template>
+  <FullAlert v-if="showAlert" class="fixed z-50" @ok="closeAlert"> Halo sayang </FullAlert>
   <div class="w-full h-76">
     <div class="absolute -z-10">
       <div class="absolute inset-0 bg-gradient-to-r from-black opacity-50"></div>
@@ -59,4 +60,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 const { loggedIn } = useUserSession();
+
+const showAlert = ref(true);
+
+function closeAlert() {
+  showAlert.value = false;
+}
 </script>
