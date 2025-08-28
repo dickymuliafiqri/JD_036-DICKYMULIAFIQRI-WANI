@@ -71,7 +71,6 @@ const { user } = useUserSession();
 const jobCategories = ref(["Utilitas", "Servis", "Kebun", "Komunitas", "Pet Care", "Lainnya"]);
 const toast = useToast();
 const addDialogOpen = ref(false);
-const jobsList = ref<Array<any>>([]);
 const menuButtons = ref<
   Array<{
     icon: string;
@@ -117,29 +116,6 @@ const state = ref<Partial<Schema>>({
   expiredAt: "",
 });
 
-async function getJobsData() {
-  const data = await $fetch("/api/job");
-  jobsList.value = data.reverse();
-}
-
-onMounted(async () => {
-  await getJobsData();
-});
-
-async function deleteJob(id: number) {
-  console.log(id);
-  await $fetch("/api/job/" + id, {
-    method: "DELETE",
-  })
-    .then(async () => {
-      toast.add({ title: "Success", description: "Job berhasil dihapus", color: "success" });
-      await getJobsData();
-    })
-    .catch(() => {
-      toast.add({ title: "Failure", description: "Job gagal dihapus", color: "error" });
-    });
-}
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   await $fetch("/api/job", {
     method: "POST",
@@ -148,8 +124,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     .then(async () => {
       toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
       addDialogOpen.value = false;
-
-      await getJobsData();
     })
     .catch(() => {
       toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });

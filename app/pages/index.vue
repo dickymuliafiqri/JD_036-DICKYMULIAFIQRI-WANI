@@ -14,11 +14,13 @@
       inner-class="bg-raka-blue-20 -rotate-2"
       class="mt-3 ml-6"
       :exec="
-        () => {
+        async () => {
           if (!loggedIn) {
-            navigateTo('/api/auth/google');
+            await navigateTo('/api/auth/google', {
+              external: true,
+            });
           } else {
-            navigateTo('/dashboard');
+            await navigateTo('/dashboard');
           }
         }
       "
@@ -49,7 +51,7 @@
         <div class="text-2xl">Rating Pengguna!</div>
       </div>
       <PageRatingCarousel class="mt-3" />
-      <PageRatingForm v-if="loggedIn" class="mt-5" />
+      <PageRatingForm class="mt-5" />
     </UContainer>
   </div>
 </template>

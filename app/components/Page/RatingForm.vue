@@ -27,7 +27,19 @@
           range: 'bg-amber-400 border-2',
         }"
       />
-      <SolidShadowButton text="Kirim Ulasan" inner-class="bg-amber-400 px-8" />
+      <SolidShadowButton
+        text="Kirim Ulasan"
+        inner-class="bg-amber-400 px-8"
+        :exec="
+          async () => {
+            if (!loggedIn) {
+              await navigateTo('/api/auth/google', {
+                external: true,
+              });
+            }
+          }
+        "
+      />
     </UForm>
   </div>
 </template>
@@ -37,6 +49,7 @@ import { ref } from "vue";
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
+const { loggedIn } = useUserSession();
 const toast = useToast();
 const schema = z.object({
   text: z.string().min(1).max(128),

@@ -3,6 +3,17 @@
     <div class="flex gap-3">
       <div>
         <UAvatar :src="data.users_table.avatar" :alt="data.users_table.name"></UAvatar>
+        <div
+          v-if="data.users_table.id == user?.sub"
+          class="h-max flex flex-col gap-3 py-2 justify-center items-center rounded-full my-3 text-white"
+        >
+          <div @click="editJob">
+            <Icon name="ic:baseline-edit"></Icon>
+          </div>
+          <div @click="deleteJob(data.jobs_table.id)">
+            <Icon name="ic:baseline-delete-forever"></Icon>
+          </div>
+        </div>
       </div>
       <div class="w-full">
         <div class="text-white">
@@ -43,8 +54,24 @@
 const props = defineProps({
   data: null,
 });
+const emit = defineEmits(["reloadJobs"]);
+
+const { user } = useUserSession();
 
 async function showJob() {
   window.alert("Nanti diarahin ke " + props.data.users_table.name);
+}
+
+async function editJob() {
+  // Edit job
+}
+
+async function deleteJob(id: number) {
+  console.log(id);
+  await $fetch("/api/job/" + id, {
+    method: "DELETE",
+  }).then(async () => {
+    emit("reloadJobs", true);
+  });
 }
 </script>
