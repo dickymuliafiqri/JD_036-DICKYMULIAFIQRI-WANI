@@ -6,43 +6,56 @@
     <div class="w-full flex justify-center mt-5">
       <div>
         <UForm :schema="schema" :state="state" class="space-y-4 w-64 flex flex-col" @submit="onSubmit">
-          <UFormField label="Foto KTP" name="ktp">
-            <UFileUpload />
-          </UFormField>
-
           <UFormField label="Nama" name="name">
-            <UInput :placeholder="user?.name" disabled />
+            <UInput :placeholder="user?.name" disabled class="desc w-full" />
           </UFormField>
 
           <UFormField label="Tentang Kamu" name="about">
-            <UTextarea v-model="state.about" :maxrows="4" />
+            <UTextarea v-model="state.about" :maxrows="4" class="desc w-full" />
           </UFormField>
 
           <UFormField label="Keahlian Khusus" name="speciality">
-            <UInputTags v-model="state.speciality" />
+            <UInputTags v-model="state.speciality" class="desc w-full" />
           </UFormField>
 
           <UFormField label="Email" name="email">
-            <UInput :placeholder="user?.email" disabled />
+            <UInput :placeholder="user?.email" disabled class="desc w-full" />
           </UFormField>
 
-          <!-- <UFormField label="NIK" name="nik">
-            <UInput :placeholder="state.nik?.toString()" disabled />
-          </UFormField> -->
-
           <UFormField label="Lokasi" name="location">
-            <UInput v-model="state.location" />
+            <USelect
+              v-model="zoneSelect.province"
+              :items="zoneList.provinces"
+              placeholder="Pilih Provinsi"
+              class="w-full my-1"
+            />
+            <USelect
+              v-if="zoneSelect.province"
+              v-model="zoneSelect.regency"
+              :items="zoneList.regencies"
+              placeholder="Pilih Kabupaten"
+              class="w-full my-1"
+            />
+            <USelect
+              v-if="zoneSelect.regency"
+              v-model="zoneSelect.district"
+              :items="zoneList.districts"
+              placeholder="Pilih Kecamatan"
+              class="w-full my-1"
+            />
           </UFormField>
 
           <UFormField label="No. HP" name="phone">
-            <UInput v-model="state.phone" type="number">
+            <UInput v-model="state.phone" type="number" class="desc w-full">
               <template #leading>
                 <p class="text-sm text-muted">+62</p>
               </template>
             </UInput>
           </UFormField>
 
-          <UButton type="submit" class="mt-3"> Submit </UButton>
+          <UButton type="submit" class="mt-3 flex justify-center shadow-solid-sm border-2 border-black">
+            Submit
+          </UButton>
         </UForm>
       </div>
     </div>
@@ -57,9 +70,7 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 const { user } = useUserSession();
 
 const schema = z.object({
-  //   ktp: z.file(),
   phone: z.number().min(10, "Minimal 10 digit"),
-  //   nik: z.number().min(16).max(16),
   location: z.string().min(2, "Minimal 2 karakter"),
   about: z.string().min(16, "Minimal 16 karakter"),
   speciality: z.array(z.string()),
@@ -67,20 +78,69 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 const state = ref<Partial<Schema>>({
-  //   ktp: undefined,
   phone: 0,
-  //   nik: 0,
   location: "",
   about: "",
   speciality: [],
 });
 
+const zoneSelect = ref({
+  province: null,
+  regency: null,
+  district: null,
+});
+const zoneList = ref<any>({
+  provinces: [],
+  regencies: [],
+  districts: [],
+});
+
+onMounted(async () => {
+  await getProvinces().then((data) => {
+    zoneList.value.provinces = data.map((zone) => {
+      return { value: `${zone.id}_${zone.name}`, label: zone.name };
+    });
+  });
+});
+
+watch(zoneSelect.value, async () => {
+  if (zoneSelect.value.province) {
+    await getRegenciesByID(parseInt((zoneSelect.value.province as string).split("_")[0]!)).then((data) => {
+      zoneList.value.regencies = data.map((zone) => {
+        return { value: `${zone.id}_${zone.name}`, label: zone.name };
+      });
+    });
+  }
+
+  if (zoneSelect.value.regency) {
+    await getDistrictsByID(parseInt((zoneSelect.value.regency as string).split("_")[0]!)).then((data) => {
+      zoneList.value.districts = data.map((zone) => {
+        return { value: `${zone.id}_${zone.name}`, label: zone.name };
+      });
+    });
+  }
+
+  if (zoneSelect.value.district) {
+    state.value.location = `${(zoneSelect.value.province as unknown as string).split("_")[1]!}_${(
+      zoneSelect.value.regency as unknown as string
+    ).split("_")[1]!}_${(zoneSelect.value.district as string).split("_")[1]!}`;
+  }
+});
+
 onMounted(async () => {
   await $fetch("/api/user").then((res) => {
+    if (res[0]?.location?.split("_").length == 3) {
+      const [province, regency, district] = res[0]?.location?.split("_") as string[];
+      zoneSelect.value = {
+        province: province as any,
+        regency: regency as any,
+        district: district as any,
+      };
+    }
+
     state.value = {
       ...state.value,
       phone: parseInt(res[0]?.phone as string) || 0,
-      //   nik: parseInt(res[0]?.nik as unknown as string) || 0,
       location: res[0]?.location as string,
       about: res[0]?.about as string,
       speciality: (res[0]?.speciality as string).split(","),

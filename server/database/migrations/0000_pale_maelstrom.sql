@@ -25,7 +25,6 @@ CREATE TABLE `users_table` (
 	`name` text NOT NULL,
 	`avatar` text,
 	`email` text NOT NULL,
-	`nik` integer,
 	`location` text,
 	`phone` text,
 	`about` text,

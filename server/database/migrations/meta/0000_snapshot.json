@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bf0a2465-3440-4749-bbb2-e29e04646690",
+  "id": "d33cb9b6-6903-42bf-9f4a-1163721c9cae",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs_table": {
@@ -179,13 +179,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "nik": {
-          "name": "nik",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "location": {
