@@ -53,6 +53,23 @@
       <div class="w-full h-max mt-16 flex flex-col gap-2"></div>
     </div>
     <PageJobList />
+    <div class="mt-5">
+      <div>
+        TOPUP:
+        <UInput type="number" v-model="topupAmount"></UInput>
+      </div>
+      <div>
+        <SolidShadowButton
+          text="Kirim"
+          inner-class="bg-raka-red-20"
+          :exec="
+            async () => {
+              await sendTopup();
+            }
+          "
+        ></SolidShadowButton>
+      </div>
+    </div>
   </UContainer>
 </template>
 
@@ -127,6 +144,26 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     })
     .catch(() => {
       toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });
+    });
+}
+
+// Topup
+const topupAmount = ref(10000);
+async function sendTopup() {
+  await $fetch("/api/payment", {
+    method: "POST",
+    body: JSON.stringify({
+      amount: topupAmount.value,
+    }),
+  })
+    .then(async (e) => {
+      toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
+      await navigateTo(e.invoiceUrl, {
+        external: true,
+      });
+    })
+    .catch((e) => {
+      toast.add({ title: "Error", description: e.message, color: "error" });
     });
 }
 </script>
