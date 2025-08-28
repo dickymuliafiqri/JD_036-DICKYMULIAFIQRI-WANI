@@ -1,6 +1,8 @@
 import { EventHandlerRequest, H3Event } from "h3";
 import { useValidatedBody, z } from "h3-zod";
 import { tables, useDB } from "~~/server/utils/database";
+import { getUserDataById } from "../user/index.get";
+import { patchUserCredit } from "../user/[id].patch";
 
 export default eventHandler(async (event) => {
   return await postJobData(event);
@@ -15,22 +17,28 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
     offers: z.number().min(10000),
     expiredAt: z.string(),
   });
+
   const { user } = await requireUserSession(event);
+  const userData = (await getUserDataById(user.sub))[0];
 
-  const add = await useDB()
-    .insert(tables.jobsTable)
-    .values({
-      title: title,
-      desc: desc,
-      category: category,
-      location: location,
-      offers: offers,
-      createdAt: new Date(),
-      expiredAt: new Date(expiredAt),
-      owner: user.sub,
-    })
-    .returning()
-    .get();
+  if (userData.credit >= 2000) {
+    const add = await useDB()
+      .insert(tables.jobsTable)
+      .values({
+        title: title,
+        desc: desc,
+        category: category,
+        location: location,
+        offers: offers,
+        createdAt: new Date(),
+        expiredAt: new Date(expiredAt),
+        owner: user.sub,
+      })
+      .returning()
+      .get();
 
-  return add;
+    await patchUserCredit(userData.id, userData.credit - 2000);
+
+    return add;
+  }
 }

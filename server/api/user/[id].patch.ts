@@ -31,3 +31,16 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
 
   return update;
 }
+
+export async function patchUserCredit(id: string, credit: number) {
+  const update = await useDB()
+    .update(tables.usersTable)
+    .set({
+      credit: credit,
+    })
+    .where(eq(tables.usersTable.id, id))
+    .returning()
+    .get();
+
+  return update;
+}
