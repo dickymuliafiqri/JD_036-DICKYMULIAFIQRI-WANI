@@ -40,5 +40,9 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
     await patchUserCredit(userData.id, userData.credit - 2000);
 
     return add;
+  } else {
+    throw createError({
+      statusCode: 402,
+    });
   }
 }
