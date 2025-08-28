@@ -13,3 +13,9 @@ export async function getUserData(event: H3Event<EventHandlerRequest>) {
 
   return data;
 }
+
+export async function getUserDataById(id: string) {
+  const data = await useDB().select().from(tables.usersTable).where(eq(tables.usersTable.id, id));
+
+  return data;
+}

@@ -12,13 +12,10 @@ export async function postInvoiceData(event: H3Event<EventHandlerRequest>) {
   });
   const { user } = await requireUserSession(event);
 
-  const externalId = `${user.sub}_${new Date().getTime()}`;
+  const externalId = `invoice_${new Date().getTime()}_${user.sub}`;
   const invoiceData: CreateInvoiceRequest = {
     amount: amount,
     externalId: externalId,
-    customer: {
-      customerId: user.sub,
-    },
     successRedirectUrl: "https://wani.nuxt.dev/dashboard",
   };
 
