@@ -2,10 +2,10 @@
   <UContainer>
     <div id="home" class="w-full flex justify-center px-5">
       <div class="flex flex-col justify-center items-center fixed w-full z-10">
-        <div class="w-max h-max rounded-full shadow bg-white p-2 flex gap-2">
+        <div class="w-max h-max rounded-full p-2 flex gap-2">
           <UButton
             v-for="menu in menuButtons"
-            class="rounded-full w-7 h-7 flex justify-center items-center"
+            class="rounded-full w-7 h-7 flex justify-center items-center bg-raka-red-20 shadow-solid-sm border-2 border-black"
             :color="menu.color"
             :icon="menu.icon"
             @click="menu.click()"
@@ -14,7 +14,7 @@
         <div
           ref="addDialog"
           v-show="addDialogOpen"
-          class="w-max h-max flex justify-center items-center mt-5 bg-white shadow rounded-xl p-2"
+          class="w-max h-max flex justify-center items-center mt-5 bg-white rounded-xl p-2 shadow-solid-sm border-2 border-black"
         >
           <div>
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -89,14 +89,14 @@ const menuButtons = ref<
 >([
   {
     icon: "ic:baseline-plus",
-    color: "info",
+    color: "error",
     click: () => {
       addDialogOpen.value = !addDialogOpen.value;
     },
   },
   {
     icon: "ic:sharp-search",
-    color: "info",
+    color: "error",
     click: () => {},
   },
 ]);
