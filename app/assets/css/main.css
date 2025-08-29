@@ -34,3 +34,7 @@ body {
 .solid-shadow {
   @apply border-black border-2 shadow-solid-md hover:shadow-solid-sm;
 }
+
+.solid-shadow-sm {
+  @apply border-black border-2 shadow-solid-sm;
+}

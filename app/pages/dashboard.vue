@@ -5,7 +5,7 @@
         <div class="w-max h-max rounded-full p-2 flex gap-2">
           <UButton
             v-for="menu in menuButtons"
-            class="rounded-full w-7 h-7 flex justify-center items-center bg-raka-red-20 shadow-solid-sm border-2 border-black"
+            class="rounded-full w-7 h-7 flex justify-center items-center bg-raka-red-20 solid-shadow-sm"
             :color="menu.color"
             :icon="menu.icon"
             @click="menu.click()"

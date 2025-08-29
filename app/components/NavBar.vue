@@ -2,16 +2,12 @@
   <div :class="menuClasses" class="w-full h-18 bg-raka-red-20 border-b-3 shadow-md px-3 py-2 gap-4 transition-all">
     <div class="grid grid-cols-3 h-13">
       <div class="col-span-1 my-auto h-max flex justify-start items-center">
-        <div
-          class="w-max flex justify-center p-1 rounded-full bg-white border-2 shadow-solid-sm"
-          @click="toggleMenu"
-          ref="menu"
-        >
+        <div class="w-max flex justify-center p-1 rounded-full bg-white solid-shadow-sm" @click="toggleMenu" ref="menu">
           <Icon name="ic:round-menu" class="text-2xl bg-raka-blue-10"></Icon>
         </div>
       </div>
       <div class="w-full col-span-1 my-auto h-max">
-        <NuxtLink to="/" class="flex justify-center items-center w-full title text-white text-2xl">WANI!</NuxtLink>
+        <NuxtLink to="/" class="flex justify-center items-center w-full title text-white text-2xl"> WANI! </NuxtLink>
       </div>
       <NuxtLink
         v-if="!loggedIn"
