@@ -37,6 +37,7 @@ useHead({
     },
     { name: "keywords", content: "kerja mikro, pekerjaan jangka pendek, tugas kecil, freelance, peluang kerja" },
     { name: "author", content: "WANI!" },
+    { name: "google-site-verification", content: "JH4w48d89OGvXgH0hsodi_YDyJXi5SQbP7WNP3roog8" },
     { property: "og:title", content: "WANI! - Platform Pencari Kerja Mikro" },
     {
       property: "og:description",
