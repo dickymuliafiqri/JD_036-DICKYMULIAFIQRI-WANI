@@ -20,6 +20,11 @@ export default defineAppConfig({
         base: "border-2",
       },
     },
+    inputNumber: {
+      slots: {
+        base: "border-2",
+      },
+    },
     select: {
       slots: {
         base: "border-2",

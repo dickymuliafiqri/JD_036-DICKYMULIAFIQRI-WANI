@@ -10,7 +10,6 @@
       <div class="title text-4xl w-64">CUAN SEGAMPANG INI??</div>
     </div>
     <SolidShadowButton
-      text="BURUAN GABUNG SEKARANG!"
       inner-class="bg-raka-blue-20 -rotate-2"
       class="mt-3 ml-6"
       :exec="
@@ -24,7 +23,8 @@
           }
         }
       "
-    />
+      >BURUAN GABUNG SEKARANG!</SolidShadowButton
+    >
   </div>
   <UContainer class="mt-20">
     <div class="w-full flex justify-center">

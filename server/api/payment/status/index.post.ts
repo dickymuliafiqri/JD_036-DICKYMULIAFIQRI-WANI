@@ -8,11 +8,16 @@ export default eventHandler(async (event) => {
   return await patchUserData(event);
 });
 
-// Example, need more research
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
-  // Todo
-  // Validate request headers
+  const callbackToken = event.headers.get("X-CALLBACK-TOKEN");
+  if (callbackToken != process.env.XENDIT_CALLBACK_TOKEN) {
+    throw createError({
+      statusCode: 401,
+    });
+  }
 
+  // TODO
+  // Validate invoice ID
   const { id, external_id, amount, status } = await useValidatedBody(event, {
     id: z.string(),
     external_id: z.string(),

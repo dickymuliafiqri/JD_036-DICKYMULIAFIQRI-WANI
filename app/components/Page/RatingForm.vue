@@ -28,7 +28,6 @@
         }"
       />
       <SolidShadowButton
-        text="Kirim Ulasan"
         inner-class="bg-amber-400 px-8"
         :exec="
           async () => {
@@ -39,7 +38,8 @@
             }
           }
         "
-      />
+        >Kirim Ulasan</SolidShadowButton
+      >
     </UForm>
   </div>
 </template>

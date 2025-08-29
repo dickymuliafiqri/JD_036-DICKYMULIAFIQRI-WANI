@@ -14,32 +14,24 @@
         <div
           ref="addDialog"
           v-show="addDialogOpen"
-          class="h-max flex justify-center items-center mt-5 bg-white shadow rounded-xl p-2"
+          class="w-max h-max flex justify-center items-center mt-5 bg-white shadow rounded-xl p-2"
         >
-          <div class="">
+          <div>
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
               <UFormField label="Judul" name="title">
-                <UInput v-model="state.title" placeholder="Tulis Judul" />
+                <UInput v-model="state.title" placeholder="Tulis Judul" class="w-full" />
               </UFormField>
 
               <UFormField label="Deskripsi" name="desc">
-                <UTextarea v-model="state.desc" autoresize :maxrows="4" placeholder="Tulis Deskripsi" />
+                <UTextarea v-model="state.desc" autoresize :maxrows="4" placeholder="Tulis Deskripsi" class="w-full" />
               </UFormField>
 
               <UFormField label="Kategori" name="category">
-                <USelect v-model="state.category" :items="jobCategories" />
-              </UFormField>
-
-              <UFormField label="Lokasi" name="location">
-                <UInput v-model="state.location" />
+                <USelect v-model="state.category" :items="jobCategories" class="w-full" />
               </UFormField>
 
               <UFormField label="Penawaran" name="offers">
                 <UInputNumber v-model="state.offers" :min="10000" :step="2000" />
-              </UFormField>
-
-              <UFormField label="Batas Waktu" name="expired">
-                <UInput v-model="state.expiredAt" type="date" />
               </UFormField>
 
               <div class="flex justify-center gap-2">
@@ -60,14 +52,14 @@
       </div>
       <div>
         <SolidShadowButton
-          text="Kirim"
           inner-class="bg-raka-red-20"
           :exec="
             async () => {
               await sendTopup();
             }
           "
-        ></SolidShadowButton>
+          >Kirim</SolidShadowButton
+        >
       </div>
     </div>
   </UContainer>
