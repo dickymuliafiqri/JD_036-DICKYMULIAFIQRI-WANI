@@ -10,7 +10,7 @@ export default eventHandler(async (event) => {
 
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
   const callbackToken = event.headers.get("X-CALLBACK-TOKEN");
-  if (callbackToken != process.env.XENDIT_CALLBACK_TOKEN) {
+  if (callbackToken != process.env.XENDIT_WEBHOOK_TOKEN) {
     throw createError({
       statusCode: 401,
     });
