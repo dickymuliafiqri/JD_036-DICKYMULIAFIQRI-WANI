@@ -30,5 +30,15 @@ export default defineAppConfig({
         base: "border-2",
       },
     },
+    button: {
+      slots: {
+        base: "title",
+      },
+    },
+    toast: {
+      slots: {
+        root: "border-2 border-black solid-shadow ring-none ring-0",
+      },
+    },
   },
 });

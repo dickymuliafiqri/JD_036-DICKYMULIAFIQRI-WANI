@@ -6,7 +6,7 @@
         <div class="my-3">
           <slot></slot>
         </div>
-        <SolidShadowButton inner-class="bg-raka-red-20 mt-3 px-4" :exec="closeAlert">OK!</SolidShadowButton>
+        <UButton class="solid-shadow bg-raka-red-20 mt-3 px-4" @click="closeAlert">OK!</UButton>
       </div>
     </UContainer>
   </div>

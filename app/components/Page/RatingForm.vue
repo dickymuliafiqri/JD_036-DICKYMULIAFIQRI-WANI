@@ -14,7 +14,7 @@
         placeholder="Tulis ulasan kamu di sini..."
       ></textarea>
       <div>
-        <Icon v-for="n in state.rating" name="ic:baseline-star" class="text-amber-300 text-4xl font-bold my-2" />
+        <Icon v-for="_ in state.rating" name="ic:baseline-star" class="text-amber-300 text-4xl font-bold my-2" />
       </div>
       <USlider
         v-model="state.rating"
@@ -27,9 +27,11 @@
           range: 'bg-amber-400 border-2',
         }"
       />
-      <SolidShadowButton
-        inner-class="bg-amber-400 px-8"
-        :exec="
+      <UButton
+        class="solid-shadow bg-amber-400 px-8"
+        type="submit"
+        color="warning"
+        @click="
           async () => {
             if (!loggedIn) {
               await navigateTo('/api/auth/google', {
@@ -38,8 +40,9 @@
             }
           }
         "
-        >Kirim Ulasan</SolidShadowButton
       >
+        Kirim Ulasan
+      </UButton>
     </UForm>
   </div>
 </template>
@@ -71,8 +74,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       toast.add({ title: "Success", description: "Form berhasil dikirimkan", color: "success" });
       reloadWindow();
     })
-    .catch(() => {
-      toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });
+    .catch((e) => {
+      if (e.statusCode == 510) {
+        alertStore.text = "Kamu sudah memberi rating";
+        alertStore.isOpen = true;
+      } else {
+        toast.add({ title: "Failure", description: "Form gagal dikirimkan", color: "error" });
+      }
     });
 }
 </script>

@@ -9,10 +9,10 @@
       <div class="font-bold">Sejak Kapan Cari</div>
       <div class="title text-4xl w-64">CUAN SEGAMPANG INI??</div>
     </div>
-    <SolidShadowButton
-      inner-class="bg-raka-blue-20 -rotate-2"
-      class="mt-3 ml-6"
-      :exec="
+    <UButton
+      class="solid-shadow bg-raka-blue-20 -rotate-2 mt-3 ml-6"
+      color="info"
+      @click="
         async () => {
           if (!loggedIn) {
             await navigateTo('/api/auth/google', {
@@ -23,7 +23,7 @@
           }
         }
       "
-      >BURUAN GABUNG SEKARANG!</SolidShadowButton
+      >BURUAN GABUNG SEKARANG!</UButton
     >
   </div>
   <UContainer class="mt-20">

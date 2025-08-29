@@ -13,7 +13,7 @@ export async function postRatingData(event: H3Event<EventHandlerRequest>) {
     rating: z.number().min(1).max(5),
   });
 
-  if ((await getSelfRatingData(event)).length < 0) {
+  if ((await getSelfRatingData(event)).length <= 0) {
     const { user } = await requireUserSession(event);
 
     const rate = await useDB()

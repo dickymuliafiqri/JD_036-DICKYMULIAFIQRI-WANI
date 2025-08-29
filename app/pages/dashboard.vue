@@ -35,8 +35,8 @@
               </UFormField>
 
               <div class="flex justify-center gap-2">
-                <UButton @click="addDialogOpen = false" color="warning"> Batal </UButton>
-                <UButton type="submit" color="info"> Kirim </UButton>
+                <UButton @click="addDialogOpen = false" color="warning" class="solid-shadow"> Batal </UButton>
+                <UButton type="submit" color="info" class="solid-shadow"> Kirim </UButton>
               </div>
             </UForm>
           </div>
@@ -51,14 +51,15 @@
         <UInput type="number" v-model="topupAmount"></UInput>
       </div>
       <div>
-        <SolidShadowButton
-          inner-class="bg-raka-red-20"
-          :exec="
+        <UButton
+          class="solid-shadow bg-raka-red-20"
+          color="error"
+          @click="
             async () => {
               await sendTopup();
             }
           "
-          >Kirim</SolidShadowButton
+          >Kirim</UButton
         >
       </div>
     </div>
@@ -109,9 +110,7 @@ const schema = z.object({
   title: z.string().min(8, "Minimal 8 karakter"),
   desc: z.string().min(16, "Minimal 16 karakter"),
   category: z.string(),
-  location: z.string().min(2, "Minimal 2 karakter"),
   offers: z.number().min(10000, "Harga penawaran minimal 10.000"),
-  expiredAt: z.string(),
 });
 
 type Schema = z.output<typeof schema>;
@@ -119,9 +118,7 @@ const state = ref<Partial<Schema>>({
   title: "",
   desc: "",
   category: jobCategories.value[jobCategories.value.length - 1],
-  location: "",
   offers: 10000,
-  expiredAt: "",
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {

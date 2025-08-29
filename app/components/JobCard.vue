@@ -33,7 +33,7 @@
             <div class="flex flex-col gap-1">
               <div class="flex gap-1">
                 <Icon name="ic:outline-location-on" />
-                <div class="text-xs font-bold">{{ data.jobs_table.location }}</div>
+                <div class="text-xs font-bold">{{ (data.users_table.location as string).split("_")[2] }}</div>
               </div>
               <div class="flex gap-1">
                 <Icon name="ic:round-money" />
@@ -41,7 +41,7 @@
               </div>
             </div>
             <div>
-              <SolidShadowButton text="WANI!" inner-class="bg-amber-400 px-8" :exec="showJob" />
+              <UButton class="solid-shadow bg-amber-400 px-8" @click="showJob" color="warning">WANI!</UButton>
             </div>
           </div>
         </div>

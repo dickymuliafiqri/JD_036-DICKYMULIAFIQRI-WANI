@@ -3,7 +3,7 @@ import { EventHandlerRequest, H3Event } from "h3";
 import { useValidatedBody, z } from "h3-zod";
 import { tables, useDB } from "~~/server/utils/database";
 import { getUserDataById } from "../../user/index.get";
-import { getPaymentData, getPaymentDataById } from "../[id].get";
+import { getPaymentDataById } from "../[id].get";
 
 export default eventHandler(async (event) => {
   return await patchUserData(event);
@@ -17,8 +17,6 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     });
   }
 
-  // TODO
-  // Validate invoice ID
   const { id, external_id, amount, status, created } = await useValidatedBody(event, {
     id: z.string(),
     external_id: z.string(),

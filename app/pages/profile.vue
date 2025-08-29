@@ -28,6 +28,7 @@
               :items="zoneList.provinces"
               placeholder="Pilih Provinsi"
               class="w-full my-1"
+              @change="getRegencies"
             />
             <USelect
               v-if="zoneSelect.province"
@@ -35,6 +36,7 @@
               :items="zoneList.regencies"
               placeholder="Pilih Kabupaten"
               class="w-full my-1"
+              @change="getDistricts"
             />
             <USelect
               v-if="zoneSelect.regency"
@@ -42,6 +44,7 @@
               :items="zoneList.districts"
               placeholder="Pilih Kecamatan"
               class="w-full my-1"
+              @change="setLocation"
             />
           </UFormField>
 
@@ -103,29 +106,29 @@ onMounted(async () => {
   });
 });
 
-watch(zoneSelect.value, async () => {
-  if (zoneSelect.value.province) {
-    await getRegenciesByID(parseInt((zoneSelect.value.province as string).split("_")[0]!)).then((data) => {
-      zoneList.value.regencies = data.map((zone) => {
-        return { value: `${zone.id}_${zone.name}`, label: zone.name };
-      });
+async function getRegencies() {
+  zoneSelect.value.regency = null;
+  await getRegenciesByID(parseInt((zoneSelect.value.province as unknown as string).split("_")[0]!)).then((data) => {
+    zoneList.value.regencies = data.map((zone) => {
+      return { value: `${zone.id}_${zone.name}`, label: zone.name };
     });
-  }
+  });
+}
 
-  if (zoneSelect.value.regency) {
-    await getDistrictsByID(parseInt((zoneSelect.value.regency as string).split("_")[0]!)).then((data) => {
-      zoneList.value.districts = data.map((zone) => {
-        return { value: `${zone.id}_${zone.name}`, label: zone.name };
-      });
+async function getDistricts() {
+  zoneSelect.value.district = null;
+  await getDistrictsByID(parseInt((zoneSelect.value.regency as unknown as string).split("_")[0]!)).then((data) => {
+    zoneList.value.districts = data.map((zone) => {
+      return { value: `${zone.id}_${zone.name}`, label: zone.name };
     });
-  }
+  });
+}
 
-  if (zoneSelect.value.district) {
-    state.value.location = `${(zoneSelect.value.province as unknown as string).split("_")[1]!}_${(
-      zoneSelect.value.regency as unknown as string
-    ).split("_")[1]!}_${(zoneSelect.value.district as string).split("_")[1]!}`;
-  }
-});
+function setLocation() {
+  state.value.location = `${(zoneSelect.value.province as unknown as string).split("_")[1]!}_${(
+    zoneSelect.value.regency as unknown as string
+  ).split("_")[1]!}_${(zoneSelect.value.district as unknown as string).split("_")[1]!}`;
+}
 
 onMounted(async () => {
   await $fetch("/api/user").then((res) => {
