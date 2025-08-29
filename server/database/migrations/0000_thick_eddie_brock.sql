@@ -3,12 +3,19 @@ CREATE TABLE `jobs_table` (
 	`title` text NOT NULL,
 	`desc` text NOT NULL,
 	`category` text NOT NULL,
-	`location` text NOT NULL,
 	`offers` integer NOT NULL,
 	`created_at` integer NOT NULL,
-	`expired_at` integer NOT NULL,
 	`owner` text NOT NULL,
 	FOREIGN KEY (`owner`) REFERENCES `users_table`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `payments_table` (
+	`id` text PRIMARY KEY NOT NULL,
+	`invoiceId` text NOT NULL,
+	`amount` integer NOT NULL,
+	`created_at` integer NOT NULL,
+	`buyerId` text NOT NULL,
+	FOREIGN KEY (`buyerId`) REFERENCES `users_table`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `ratings_table` (

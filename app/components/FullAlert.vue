@@ -6,7 +6,7 @@
         <div class="my-3">
           <slot></slot>
         </div>
-        <SolidShadowButton text="OK!" inner-class="bg-raka-red-20 mt-3 px-4" :exec="closeAlert"></SolidShadowButton>
+        <SolidShadowButton inner-class="bg-raka-red-20 mt-3 px-4" :exec="closeAlert">OK!</SolidShadowButton>
       </div>
     </UContainer>
   </div>

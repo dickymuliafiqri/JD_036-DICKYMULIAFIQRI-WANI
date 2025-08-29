@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d33cb9b6-6903-42bf-9f4a-1163721c9cae",
+  "id": "c9f0e75e-9991-4241-aa44-c5788515548f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs_table": {
@@ -35,13 +35,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "location": {
-          "name": "location",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "offers": {
           "name": "offers",
           "type": "integer",
@@ -51,13 +44,6 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expired_at": {
-          "name": "expired_at",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -79,6 +65,65 @@
           "tableTo": "users_table",
           "columnsFrom": [
             "owner"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "payments_table": {
+      "name": "payments_table",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "invoiceId": {
+          "name": "invoiceId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "buyerId": {
+          "name": "buyerId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "payments_table_buyerId_users_table_id_fk": {
+          "name": "payments_table_buyerId_users_table_id_fk",
+          "tableFrom": "payments_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "buyerId"
           ],
           "columnsTo": [
             "id"

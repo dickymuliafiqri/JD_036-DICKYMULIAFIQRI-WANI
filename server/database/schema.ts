@@ -17,10 +17,8 @@ export const jobsTable = sqliteTable("jobs_table", {
   title: text().notNull(),
   desc: text().notNull(),
   category: text().notNull(),
-  location: text().notNull(),
   offers: int().notNull(),
   createdAt: int("created_at", { mode: "timestamp" }).notNull(),
-  expiredAt: int("expired_at", { mode: "timestamp" }).notNull(),
   owner: text()
     .notNull()
     .references(() => usersTable.id),
@@ -34,4 +32,14 @@ export const ratingsTable = sqliteTable("ratings_table", {
   rating: int().notNull(),
   review: text(),
   createdAt: int("created_at", { mode: "timestamp" }).notNull(),
+});
+
+export const paymentsTable = sqliteTable("payments_table", {
+  id: text().primaryKey(),
+  invoiceId: text().notNull(),
+  amount: int().notNull(),
+  createdAt: int("created_at", { mode: "timestamp" }).notNull(),
+  buyerId: text()
+    .notNull()
+    .references(() => usersTable.id),
 });

@@ -30,10 +30,8 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
         title: title,
         desc: desc,
         category: category,
-        location: location,
         offers: offers,
         createdAt: new Date(),
-        expiredAt: new Date(expiredAt),
         owner: user.sub,
       })
       .returning()
