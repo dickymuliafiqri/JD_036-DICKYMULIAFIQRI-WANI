@@ -132,12 +132,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       await jobsStore.getJobList();
     })
     .catch((e) => {
-      console.log(e);
-      if (e.statusCode == 400) {
-        alertStore.text = "Job tidak memenuhi kriteria!";
-      } else {
-        alertStore.text = e.errorMessage;
-      }
+      alertStore.text = e.data.statusMessage;
       alertStore.isOpen = true;
     });
 }

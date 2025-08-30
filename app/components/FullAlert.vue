@@ -3,10 +3,10 @@
     <UContainer>
       <div class="w-full h-max bg-white flex flex-col justify-center items-center rounded-2xl p-4 border-2">
         <div class="title text-2xl">Informasi</div>
-        <div class="my-3">
+        <div class="my-3 text-center">
           <slot></slot>
         </div>
-        <UButton class="solid-shadow bg-raka-red-20 mt-3 px-4" @click="closeAlert" color="error">OK!</UButton>
+        <UButton class="solid-shadow bg-raka-red-20 mt-3 px-4" @click="closeAlert">OK!</UButton>
       </div>
     </UContainer>
   </div>
