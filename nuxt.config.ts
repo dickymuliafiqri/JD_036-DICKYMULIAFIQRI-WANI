@@ -1,8 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   nitro: {
+    scheduledTasks: {
+      "* * * * *": ["database:fee"],
+    },
     experimental: {
       openAPI: true,
+      tasks: true,
     },
   },
   app: {

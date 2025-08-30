@@ -28,7 +28,7 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
   const { user } = await requireUserSession(event);
   const userData = (await getUserDataById(user.sub))[0];
 
-  if (userData.credit >= 2000) {
+  if (userData.credit >= 1000) {
     const add = await useDB()
       .insert(tables.jobsTable)
       .values({
@@ -43,7 +43,7 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
       .returning()
       .get();
 
-    await patchUserCredit(userData.id, userData.credit - 2000);
+    await patchUserCredit(userData.id, userData.credit - 1000);
 
     return add;
   } else {
