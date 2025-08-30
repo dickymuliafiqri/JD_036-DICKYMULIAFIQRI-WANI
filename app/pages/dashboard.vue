@@ -27,7 +27,7 @@
               </UFormField>
 
               <UFormField label="Kategori" name="category">
-                <USelect v-model="state.category" :items="jobCategories" class="w-full" />
+                <USelect v-model="state.category" :items="jobCategories" class="w-full" placeholder="Pilih Kategori" />
               </UFormField>
 
               <UFormField label="Penawaran" name="offers">
@@ -117,7 +117,7 @@ type Schema = z.output<typeof schema>;
 const state = ref<Partial<Schema>>({
   title: "",
   desc: "",
-  category: jobCategories.value[jobCategories.value.length - 1],
+  category: undefined,
   offers: 10000,
 });
 
@@ -132,7 +132,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       await jobsStore.getJobList();
     })
     .catch((e) => {
-      alertStore.text = e.message;
+      console.log(e);
+      if (e.statusCode == 400) {
+        alertStore.text = "Job tidak memenuhi kriteria!";
+      } else {
+        alertStore.text = e.errorMessage;
+      }
       alertStore.isOpen = true;
     });
 }

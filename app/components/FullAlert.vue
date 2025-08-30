@@ -6,7 +6,7 @@
         <div class="my-3">
           <slot></slot>
         </div>
-        <UButton class="solid-shadow bg-raka-red-20 mt-3 px-4" @click="closeAlert">OK!</UButton>
+        <UButton class="solid-shadow bg-raka-red-20 mt-3 px-4" @click="closeAlert" color="error">OK!</UButton>
       </div>
     </UContainer>
   </div>
