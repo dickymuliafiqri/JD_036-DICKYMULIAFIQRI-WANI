@@ -1,3 +1,4 @@
+import { deleteJobById, deleteJobByIds } from "~~/server/api/job/[id].delete";
 import { getJobsDataByOwnerId } from "~~/server/api/job/index.get";
 import { patchUserCredit } from "~~/server/api/user/[id].patch";
 import { getUsersData } from "~~/server/api/user/index.get";
@@ -12,11 +13,15 @@ export default defineTask({
     const users = await getUsersData();
 
     for (const user of users) {
-      const activeJobs = (await getJobsDataByOwnerId(user.id)).length;
-      const totalFee = activeJobs * 1000;
-
       try {
-        await patchUserCredit(user.id, user.credit - totalFee);
+        const jobs = await getJobsDataByOwnerId(user.id);
+
+        if (user.credit <= 0) {
+          await deleteJobByIds(jobs.map((job) => job.id));
+          break;
+        }
+
+        await patchUserCredit(user.id, user.credit - 1000);
       } catch (e: any) {
         errors.push(e.message);
       }

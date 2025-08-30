@@ -39,7 +39,7 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     const update = await useDB()
       .update(tables.usersTable)
       .set({
-        credit: (userData[0].credit || 0) + amount,
+        credit: (userData[0].credit > 0 ? userData[0].credit : 0) + amount,
       })
       .where(eq(tables.usersTable.id, userId))
       .returning()
