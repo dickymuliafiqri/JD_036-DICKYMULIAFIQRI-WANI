@@ -17,7 +17,14 @@
       </div>
       <div class="w-full">
         <div class="text-white">
-          <div class="title text-xl">{{ data.jobs_table.title }}</div>
+          <div class="title text-xl">
+            <div v-if="!isEdit">
+              {{ data.jobs_table.title }}
+            </div>
+            <div v-else>
+              <UInput v-model="data.jobs_table.title"></UInput>
+            </div>
+          </div>
           <div class="text-sm">
             <div>Category : {{ data.jobs_table.category }}</div>
             <div>
@@ -26,22 +33,40 @@
           </div>
         </div>
         <div class="bg-white p-2 rounded-xl mt-2 font-bold text-xs">
-          {{ data.jobs_table.desc }}
+          <div v-if="!isEdit">
+            {{ data.jobs_table.desc }}
+          </div>
+          <div v-else>
+            <UTextarea v-model="data.jobs_table.desc" :maxrows="2" class="w-full"></UTextarea>
+          </div>
         </div>
         <div class="flex justify-between text-white mt-2">
           <div class="w-full flex justify-between">
             <div class="flex flex-col gap-1">
-              <div class="flex gap-1">
+              <div class="flex items-center gap-1">
                 <Icon name="ic:outline-location-on" />
                 <div class="text-xs font-bold">{{ (data.users_table.location as string).split("_")[2] }}</div>
               </div>
-              <div class="flex gap-1">
+              <div class="flex items-center gap-1">
                 <Icon name="ic:round-money" />
-                <div class="text-xs font-bold">Rp. {{ data.jobs_table.offers }}</div>
+                <div class="text-xs font-bold flex w-full items-center gap-2">
+                  <span> Rp. </span>
+                  <div v-if="!isEdit">
+                    {{ data.jobs_table.offers }}
+                  </div>
+                  <div v-else class="flex w-38">
+                    <UInputNumber v-model="data.jobs_table.offers" :min="10000" :step="2000" size="xs" />
+                  </div>
+                </div>
               </div>
             </div>
             <div>
-              <UButton class="solid-shadow bg-amber-400 px-8" @click="showJob" color="warning">WANI!</UButton>
+              <UButton v-if="!isEdit" class="solid-shadow bg-amber-400 px-8" @click="showJob" color="warning"
+                >WANI!</UButton
+              >
+              <UButton v-else class="solid-shadow bg-emerald-400" @click="updateJob(data.jobs_table.id)" color="success"
+                >Simpan</UButton
+              >
             </div>
           </div>
         </div>
@@ -56,6 +81,7 @@ const props = defineProps({
 });
 
 const { user } = useUserSession();
+const isEdit = ref(false);
 
 async function showJob() {
   await navigateTo(
@@ -71,11 +97,19 @@ async function showJob() {
 }
 
 async function editJob() {
-  // Edit job
+  isEdit.value = true;
 }
 
-async function deleteJob(id: number) {
-  console.log(id);
+async function updateJob(id: string) {
+  await $fetch("/api/job/" + id, {
+    method: "PATCH",
+    body: JSON.stringify(props.data.jobs_table),
+  }).finally(() => {
+    isEdit.value = false;
+  });
+}
+
+async function deleteJob(id: string) {
   await $fetch("/api/job/" + id, {
     method: "DELETE",
   }).then(async () => {

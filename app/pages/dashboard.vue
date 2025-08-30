@@ -132,7 +132,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       await jobsStore.getJobList();
     })
     .catch((e) => {
-      alertStore.text = e.statusMessage;
+      alertStore.text = e.message;
       alertStore.isOpen = true;
     });
 }

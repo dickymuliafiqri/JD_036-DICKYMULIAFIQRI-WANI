@@ -9,7 +9,7 @@ export default eventHandler(async (event) => {
 
 export async function deleteJobData(event: H3Event<EventHandlerRequest>) {
   const { id } = await useValidatedParams(event, {
-    id: z.uuid(),
+    id: z.uuidv4(),
   });
 
   const data = await useDB().delete(tables.jobsTable).where(eq(tables.jobsTable.id, id)).returning().get();
