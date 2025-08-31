@@ -2,7 +2,7 @@
   <div class="w-full h-76">
     <div class="absolute -z-10">
       <div class="absolute inset-0 bg-gradient-to-r from-black opacity-50"></div>
-      <img src="/images/hero.jpg" />
+      <img src="/images/hero.webp" />
     </div>
     <div class="text-white ml-8 pt-10">
       <div class="absolute text-amber-300 ml-33 -mt-4 text-4xl font-black">*</div>
