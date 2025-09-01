@@ -5,6 +5,7 @@ CREATE TABLE `jobs_table` (
 	`category` text NOT NULL,
 	`offers` integer NOT NULL,
 	`created_at` integer NOT NULL,
+	`anonym` integer DEFAULT 0 NOT NULL,
 	`owner` text NOT NULL,
 	FOREIGN KEY (`owner`) REFERENCES `users_table`(`id`) ON UPDATE no action ON DELETE no action
 );

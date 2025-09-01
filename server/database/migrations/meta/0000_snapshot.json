@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c9f0e75e-9991-4241-aa44-c5788515548f",
+  "id": "12779e6c-6d0e-4302-9da4-34561e08e457",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs_table": {
@@ -48,6 +48,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "anonym": {
+          "name": "anonym",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         },
         "owner": {
           "name": "owner",

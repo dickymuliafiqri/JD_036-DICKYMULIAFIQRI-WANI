@@ -19,6 +19,7 @@ export const jobsTable = sqliteTable("jobs_table", {
   category: text().notNull(),
   offers: int().notNull(),
   createdAt: int("created_at", { mode: "timestamp" }).notNull(),
+  anonym: int().notNull().default(0),
   owner: text()
     .notNull()
     .references(() => usersTable.id),

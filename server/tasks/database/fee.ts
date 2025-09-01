@@ -2,6 +2,7 @@ import { deleteJobById, deleteJobByIds } from "~~/server/api/job/[id].delete";
 import { getJobsDataByOwnerId } from "~~/server/api/job/index.get";
 import { patchUserCredit } from "~~/server/api/user/[id].patch";
 import { getUsersData } from "~~/server/api/user/index.get";
+import { JOB_ACTIVE_FEE } from "../../../constant";
 
 export default defineTask({
   meta: {
@@ -21,7 +22,7 @@ export default defineTask({
           break;
         }
 
-        await patchUserCredit(user.id, user.credit - 1000);
+        await patchUserCredit(user.id, user.credit - JOB_ACTIVE_FEE);
       } catch (e: any) {
         errors.push(e.message);
       }

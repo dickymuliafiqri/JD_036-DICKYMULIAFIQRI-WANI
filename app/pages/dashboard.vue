@@ -54,10 +54,20 @@
                 <UInputNumber v-model="state.offers" :min="10000" :step="2000" />
               </UFormField>
 
+              <UFormField label="Sembunyikan Pengguna" name="anonym">
+                <USwitch
+                  v-model="state.anonym"
+                  unchecked-icon="i-lucide-x"
+                  checked-icon="i-lucide-check"
+                  :default-value="false"
+                  description="Menambah biaya"
+                />
+              </UFormField>
+
               <div class="flex w-full justify-center">
                 <div class="text-xs font-medium">
                   <div>Saldo: Rp. {{ userData.credit }}</div>
-                  <div>Biaya: Rp. 1000</div>
+                  <div>Biaya: Rp. {{ JOB_CREATE_FEE + (state.anonym ? JOB_ANONYM_FEE : 0) }}</div>
                 </div>
               </div>
 
@@ -78,6 +88,7 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from "vue";
 import { onClickOutside } from "@vueuse/core";
+import { JOB_ANONYM_FEE, JOB_CREATE_FEE } from "../../constant";
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
@@ -120,6 +131,7 @@ const schema = z.object({
   desc: z.string().min(16, "Minimal 16 karakter"),
   category: z.string(),
   offers: z.number().min(10000, "Harga penawaran minimal 10.000"),
+  anonym: z.boolean(),
 });
 
 type Schema = z.output<typeof schema>;
@@ -128,6 +140,7 @@ const state = ref<Partial<Schema>>({
   desc: "",
   category: undefined,
   offers: 10000,
+  anonym: false,
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
