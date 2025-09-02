@@ -24,7 +24,15 @@
 </template>
 
 <script setup lang="ts">
+import { useWindowScroll } from "@vueuse/core";
+
+const { y, x } = useWindowScroll();
 const { isMobile } = useDevice();
+
+watch(y, () => {
+  windowStore.y = y.value;
+  windowStore.x = x.value;
+});
 
 useHead({
   title: "WANI! - Platform Pencari Kerja Mikro",

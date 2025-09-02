@@ -1,34 +1,45 @@
 <template>
   <UContainer>
     <div id="home" class="w-full flex justify-center px-5">
-      <div class="flex flex-col justify-center items-center fixed w-full z-10">
-        <div class="w-full h-max p-2 flex gap-2 items-center justify-between bg-black/50 backdrop-blur-md shadow-md">
-          <div class="flex items-center gap-1">
-            <div class="flex w-28">
-              <UInputNumber v-model="topupAmount" :min="10000" :step="2000" size="xs" color="error"> </UInputNumber>
+      <div class="flex flex-col justify-center items-center fixed w-full z-10 transition-all">
+        <div
+          class="w-full h-full p-2 flex flex-col gap-2 items-center backdrop-blur-md transition-all"
+          :class="windowStore.y ? 'bg-white/40' : ''"
+        >
+          <div class="flex items-center w-full h-full justify-between">
+            <div class="flex flex-col font-medium text-xs">
+              <div>Nama: {{ user?.name }}</div>
+              <div>Saldo: Rp. {{ userData.credit }}</div>
             </div>
-            <div>
+            <div class="flex justify-center items-center gap-2">
               <UButton
-                class="solid-shadow-sm bg-raka-red-20"
-                color="error"
-                size="xs"
-                @click="
-                  async () => {
-                    await sendTopup();
-                  }
-                "
-                >Topup</UButton
-              >
+                v-for="menu in menuButtons"
+                class="rounded-full w-7 h-7 flex justify-center items-center bg-raka-red-20 solid-shadow-sm"
+                :color="menu.color"
+                :icon="menu.icon"
+                @click="menu.click()"
+              />
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <UButton
-              v-for="menu in menuButtons"
-              class="rounded-full w-7 h-7 flex justify-center items-center bg-raka-red-20 solid-shadow-sm"
-              :color="menu.color"
-              :icon="menu.icon"
-              @click="menu.click()"
-            />
+          <div>
+            <div v-if="topupButtonOpen" class="flex items-center gap-1">
+              <div class="flex w-28">
+                <UInputNumber v-model="topupAmount" :min="10000" :step="2000" size="xs" color="error"> </UInputNumber>
+              </div>
+              <div>
+                <UButton
+                  class="solid-shadow-sm bg-raka-red-20"
+                  color="error"
+                  size="xs"
+                  @click="
+                    async () => {
+                      await sendTopup();
+                    }
+                  "
+                  >Topup</UButton
+                >
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -54,7 +65,7 @@
                 <UInputNumber v-model="state.offers" :min="10000" :step="2000" />
               </UFormField>
 
-              <UFormField label="Sembunyikan Pengguna" name="anonym">
+              <UFormField label="Sembunyikan Identitas" name="anonym">
                 <USwitch
                   v-model="state.anonym"
                   unchecked-icon="i-lucide-x"
@@ -66,7 +77,6 @@
 
               <div class="flex w-full justify-center">
                 <div class="text-xs font-medium">
-                  <div>Saldo: Rp. {{ userData.credit }}</div>
                   <div>Biaya: Rp. {{ JOB_CREATE_FEE + (state.anonym ? JOB_ANONYM_FEE : 0) }}</div>
                 </div>
               </div>
@@ -100,6 +110,7 @@ const { user } = useUserSession();
 const jobCategories = ref(["Utilitas", "Servis", "Kebun", "Komunitas", "Pet Care", "Lainnya"]);
 const toast = useToast();
 const addDialogOpen = ref(false);
+const topupButtonOpen = ref(false);
 const menuButtons = ref<
   Array<{
     icon: string;
@@ -118,6 +129,13 @@ const menuButtons = ref<
     icon: "ic:sharp-search",
     color: "error",
     click: () => {},
+  },
+  {
+    icon: "ic:baseline-attach-money",
+    color: "error",
+    click: () => {
+      topupButtonOpen.value = !topupButtonOpen.value;
+    },
   },
 ]);
 
