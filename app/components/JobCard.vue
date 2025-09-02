@@ -76,21 +76,8 @@
 </template>
 
 <script setup lang="ts">
-import { ADMIN_PHONE } from "~~/constant";
-
 const props = defineProps({
   data: null,
-});
-
-onMounted(() => {
-  if (props.data.jobs_table.anonym) {
-    props.data.users_table = {
-      ...props.data.users_table,
-      avatar: "",
-      name: "Disembunyikan",
-      phone: ADMIN_PHONE,
-    };
-  }
 });
 
 const { user } = useUserSession();
