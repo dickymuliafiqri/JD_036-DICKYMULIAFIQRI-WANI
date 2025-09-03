@@ -10,36 +10,34 @@ export default eventHandler(async (event) => {
 });
 
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
-  const callbackToken = event.headers.get("X-CALLBACK-TOKEN");
-  if (callbackToken != process.env.XENDIT_WEBHOOK_TOKEN) {
-    throw createError({
-      statusCode: 401,
-    });
-  }
+  // const callbackToken = event.headers.get("X-CALLBACK-TOKEN");
+  // if (callbackToken != process.env.XENDIT_WEBHOOK_TOKEN) {
+  //   throw createError({
+  //     statusCode: 401,
+  //   });
+  // }
 
-  const { id, external_id, amount, status, created } = await useValidatedBody(event, {
-    id: z.string(),
-    external_id: z.string(),
-    amount: z.number().min(10000),
-    status: z.string(),
-    created: z.string(),
+  const { status_code, sid, reference_id } = await useValidatedBody(event, {
+    status_code: z.number(),
+    sid: z.uuid(),
+    reference_id: z.string(),
   });
 
-  if (status === "PAID") {
-    if ((await getPaymentDataById(id)).length > 0) {
+  if (status_code == 1) {
+    if ((await getPaymentDataById(sid)).length > 0) {
       throw createError({
         statusCode: 500,
         statusMessage: "ID exists",
       });
     }
 
-    const userId = (external_id as string).split("_")[2];
+    const [_, createdAt, userId, amount] = (reference_id as string).split("_");
     const userData = await getUserDataById(userId);
 
     const update = await useDB()
       .update(tables.usersTable)
       .set({
-        credit: (userData[0].credit > 0 ? userData[0].credit : 0) + amount,
+        credit: (userData[0].credit > 0 ? userData[0].credit : 0) + parseInt(amount),
       })
       .where(eq(tables.usersTable.id, userId))
       .returning()
@@ -48,10 +46,10 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     await useDB()
       .insert(tables.paymentsTable)
       .values({
-        id: id,
-        invoiceId: external_id,
-        amount: amount,
-        createdAt: new Date(created),
+        id: sid,
+        invoiceId: reference_id,
+        amount: parseInt(amount),
+        createdAt: new Date(createdAt),
         buyerId: userId,
       });
 

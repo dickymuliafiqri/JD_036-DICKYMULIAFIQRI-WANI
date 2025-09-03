@@ -185,10 +185,12 @@ async function sendTopup() {
     body: JSON.stringify({
       amount: topupAmount.value,
     }),
-  }).then(async (e) => {
-    await navigateTo(e.invoiceUrl, {
-      external: true,
-    });
+  }).then(async (e: any) => {
+    if (e["Success"]) {
+      await navigateTo(e["Data"]["Url"], {
+        external: true,
+      });
+    }
   });
 }
 
