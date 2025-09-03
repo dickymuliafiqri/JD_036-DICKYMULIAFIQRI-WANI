@@ -4,4 +4,4 @@ export const JOB_ACTIVE_FEE = 1000;
 export const JOB_ANONYM_FEE = 1000;
 
 // Admin
-export const ADMIN_PHONE = process.env.ADMIN_PHONE!;
+export const ADMIN_PHONE = "85159946600";

@@ -145,8 +145,8 @@ onClickOutside(target, () => {
 });
 
 const schema = z.object({
-  title: z.string().min(8, "Minimal 8 karakter"),
-  desc: z.string().min(16, "Minimal 16 karakter"),
+  title: z.string(),
+  desc: z.string(),
   category: z.string(),
   offers: z.number().min(10000, "Harga penawaran minimal 10.000"),
   anonym: z.boolean(),

@@ -13,8 +13,8 @@ export async function patchJobData(event: H3Event<EventHandlerRequest>) {
     id: z.uuidv4(),
   });
   const { title, desc, category, offers } = await useValidatedBody(event, {
-    title: z.string().min(8),
-    desc: z.string().min(16),
+    title: z.string(),
+    desc: z.string(),
     category: z.string(),
     offers: z.number().min(10000),
   });

@@ -1,7 +1,6 @@
-import { tables, useDB } from "~~/server/utils/database";
 import { EventHandlerRequest, H3Event } from "h3";
-import { eq, and } from "drizzle-orm";
 import { useValidatedParams, z } from "h3-zod";
+import { getJobDataByID } from "./index.get";
 
 export default eventHandler(async (event) => {
   return await applyJobData(event);
@@ -13,11 +12,7 @@ export async function applyJobData(event: H3Event<EventHandlerRequest>) {
     id: z.uuid(),
   });
 
-  const data = await useDB()
-    .delete(tables.jobsTable)
-    .where(and(eq(tables.jobsTable.id, id), eq(tables.jobsTable.owner, user.sub)))
-    .returning()
-    .get();
+  const data = await getJobDataByID(id);
 
   return data;
 }

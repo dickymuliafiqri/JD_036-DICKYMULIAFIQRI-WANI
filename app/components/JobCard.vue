@@ -84,14 +84,7 @@ const { user } = useUserSession();
 const isEdit = ref(false);
 
 async function showJob() {
-  const text = `
-Halo, saya ingin menerima pekerjaan *${props.data.jobs_table.title}*.
-
-Tolong klik tautan berikut untuk konfirmasi:
-https://wani.nuxt.dev/api/job/${props.data.jobs_table.id}`;
-  await navigateTo(`https://wa.me/62${parseInt(props.data.users_table.phone)}?text=${encodeURI(text)}`, {
-    external: true,
-  });
+  await navigateTo(`/job/${props.data.jobs_table.id}`);
 }
 
 async function editJob() {

@@ -20,3 +20,13 @@ export async function getJobsDataByOwnerId(ownerId: string) {
 
   return data;
 }
+
+export async function getJobDataByID(id: string) {
+  const data = await useDB()
+    .select()
+    .from(tables.jobsTable)
+    .innerJoin(tables.usersTable, eq(tables.jobsTable.owner, tables.usersTable.id))
+    .where(eq(tables.jobsTable.id, id));
+
+  return data;
+}

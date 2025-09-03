@@ -74,8 +74,8 @@ const { user } = useUserSession();
 
 const schema = z.object({
   phone: z.number().min(10, "Minimal 10 digit"),
-  location: z.string().min(2, "Minimal 2 karakter"),
-  about: z.string().min(16, "Minimal 16 karakter"),
+  location: z.string(),
+  about: z.string(),
   speciality: z.array(z.string()),
 });
 

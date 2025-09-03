@@ -10,8 +10,8 @@ export default eventHandler(async (event) => {
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
   const { phone, location, about, speciality } = await useValidatedBody(event, {
     phone: z.number().min(10),
-    location: z.string().min(2),
-    about: z.string().min(16),
+    location: z.string(),
+    about: z.string(),
     speciality: z.array(z.string()),
   });
   const { user } = await requireUserSession(event);

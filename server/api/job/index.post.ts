@@ -13,8 +13,8 @@ export default eventHandler(async (event) => {
 
 export async function postJobData(event: H3Event<EventHandlerRequest>) {
   const { title, desc, category, offers, anonym } = await useValidatedBody(event, {
-    title: z.string().min(8),
-    desc: z.string().min(16),
+    title: z.string(),
+    desc: z.string(),
     category: z.string(),
     offers: z.number().min(10000),
     anonym: z.boolean(),
