@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import CryptoJS from "crypto-js";
 import dayjs from "dayjs";
+import { hmacSHA256, sha256 } from "./cipher";
 
 export async function createPayment(id: string, amount: number) {
   const body = {
@@ -15,9 +15,9 @@ export async function createPayment(id: string, amount: number) {
 
   const apiKey = process.env.IPAYMU_API_KEY!;
   const va = process.env.IPAYMU_VA!;
-  const bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
+  const bodyEncrypt = await sha256(JSON.stringify(body));
   const stringToSign = "POST:" + va + ":" + bodyEncrypt + ":" + apiKey;
-  const signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringToSign, apiKey));
+  const signature = await hmacSHA256(apiKey, stringToSign);
 
   const headers = {
     Accept: "application/json",
@@ -26,8 +26,6 @@ export async function createPayment(id: string, amount: number) {
     va: va,
     timestamp: dayjs().format("YYYYMMDDhhmmss"),
   };
-
-  console.log(headers);
 
   try {
     const res = await fetch("https://sandbox.ipaymu.com/api/v2/payment", {
