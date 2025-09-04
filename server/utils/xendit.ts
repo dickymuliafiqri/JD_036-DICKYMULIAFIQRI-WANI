@@ -1,5 +1,6 @@
 import { Xendit } from "xendit-node";
+import { XENDIT_SECRET_KEY } from "./constant";
 
 export const xenditClient = new Xendit({
-  secretKey: process.env.XENDIT_SECRET_KEY!,
+  secretKey: XENDIT_SECRET_KEY,
 });

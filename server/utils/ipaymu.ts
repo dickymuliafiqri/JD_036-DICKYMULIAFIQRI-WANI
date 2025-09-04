@@ -1,29 +1,29 @@
 import fetch from "node-fetch";
 import dayjs from "dayjs";
 import { hmacSHA256, sha256 } from "./cipher";
+import { IPAYMU_API_KEY, IPAYMU_VA } from "./constant";
 
 export async function createPayment(id: string, amount: number) {
   const body = {
-    referenceId: id,
+    referenceId: id + ":" + (await hmacSHA256(IPAYMU_API_KEY, id)),
     product: ["Saldo WANI!"],
     qty: [1],
     price: [amount],
     description: ["Mengisi saldo layanan WANI!"],
     returnUrl: "https://wani.nuxt.dev/dashboard",
     notifyUrl: "https://wani.nuxt.dev/api/payment/notify",
+    paymentMethod: "qris",
   };
 
-  const apiKey = process.env.IPAYMU_API_KEY!;
-  const va = process.env.IPAYMU_VA!;
   const bodyEncrypt = await sha256(JSON.stringify(body));
-  const stringToSign = "POST:" + va + ":" + bodyEncrypt + ":" + apiKey;
-  const signature = await hmacSHA256(apiKey, stringToSign);
+  const stringToSign = "POST:" + IPAYMU_VA + ":" + bodyEncrypt + ":" + IPAYMU_API_KEY;
+  const signature = await hmacSHA256(IPAYMU_API_KEY, stringToSign);
 
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
     signature: signature,
-    va: va,
+    va: IPAYMU_VA,
     timestamp: dayjs().format("YYYYMMDDhhmmss"),
   };
 
