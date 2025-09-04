@@ -13,8 +13,8 @@ export default eventHandler(async (event) => {
 });
 
 export async function patchUserData(event: H3Event<EventHandlerRequest>) {
-  const { status_code, sid, reference_id } = await useValidatedBody(event, {
-    status_code: z.int(),
+  const { status, sid, reference_id } = await useValidatedBody(event, {
+    status: z.string(),
     sid: z.uuid(),
     reference_id: z.string(),
   });
@@ -28,7 +28,7 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     });
   }
 
-  if (status_code == 1) {
+  if (status == "berhasil") {
     if ((await getPaymentDataById(sid)).length > 0) {
       throw createError({
         statusCode: 500,
@@ -60,4 +60,6 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
 
     return update;
   }
+
+  return status;
 }
