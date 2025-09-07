@@ -1,7 +1,7 @@
 import { tables, useDB } from "~~/server/utils/database";
 import { eq } from "drizzle-orm";
 import { EventHandlerRequest, H3Event } from "h3";
-import { useValidatedBody, useValidatedParams, z } from "h3-zod";
+import { useValidatedParams, z } from "h3-zod";
 
 export default eventHandler(async (event) => {
   return await getPaymentData(event);

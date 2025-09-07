@@ -1,11 +1,13 @@
 import { eq } from "drizzle-orm";
 import { EventHandlerRequest, H3Event } from "h3";
 import { useValidatedBody, z } from "h3-zod";
-import { tables, useDB } from "~~/server/utils/database";
+import { tables } from "~~/server/utils/database";
 import { getUserDataById } from "../../user/index.get";
 import { getPaymentDataById } from "../[id].get";
 import { hmacSHA256 } from "~~/server/utils/cipher";
 import { IPAYMU_API_KEY } from "~~/server/utils/constant";
+import { SQLitePreparedQuery } from "drizzle-orm/sqlite-core";
+import { runTxs } from "~~/server/database/tx";
 import dayjs from "dayjs";
 
 export default eventHandler(async (event) => {
@@ -39,26 +41,22 @@ export async function patchUserData(event: H3Event<EventHandlerRequest>) {
     const [_, createdAt, userId, amount] = invoiceId.split("_");
     const userData = await getUserDataById(userId);
 
-    const update = await useDB()
-      .update(tables.usersTable)
-      .set({
-        credit: (userData[0].credit > 0 ? userData[0].credit : 0) + parseInt(amount),
-      })
-      .where(eq(tables.usersTable.id, userId))
-      .returning()
-      .get();
+    await runTxs(async (tx) => {
+      await tx
+        .update(tables.usersTable)
+        .set({
+          credit: (userData[0].credit > 0 ? userData[0].credit : 0) + parseInt(amount),
+        })
+        .where(eq(tables.usersTable.id, userId));
 
-    await useDB()
-      .insert(tables.paymentsTable)
-      .values({
+      await tx.insert(tables.paymentsTable).values({
         id: sid,
         invoiceId: invoiceId,
         amount: parseInt(amount),
         createdAt: new Date(dayjs(parseInt(createdAt)).format()),
         buyerId: userId,
       });
-
-    return update;
+    });
   }
 
   return status;

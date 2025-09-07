@@ -1,4 +1,4 @@
-import { deleteJobById, deleteJobByIds } from "~~/server/api/job/[id].delete";
+import { deleteJobByIds } from "~~/server/api/job/[id].delete";
 import { getJobsDataByOwnerId } from "~~/server/api/job/index.get";
 import { patchUserCredit } from "~~/server/api/user/[id].patch";
 import { getUsersData } from "~~/server/api/user/index.get";

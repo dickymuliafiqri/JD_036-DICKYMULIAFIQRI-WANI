@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import { EventHandlerRequest, H3Event } from "h3";
 import { useValidatedBody, z } from "h3-zod";
-import { tables, useDB } from "~~/server/utils/database";
+import { tables } from "~~/server/utils/database";
 import { getUserDataById } from "../user/index.get";
-import { patchUserCredit } from "../user/[id].patch";
 import { isForbidden } from "./utils";
 import { JOB_CREATE_FEE, JOB_ANONYM_FEE } from "../../../constant";
+import { eq } from "drizzle-orm";
+import { runTxs } from "~~/server/database/tx";
 
 export default eventHandler(async (event) => {
   return await postJobData(event);
@@ -31,9 +32,8 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
   const userData = (await getUserDataById(user.sub))[0];
 
   if (userData.credit >= JOB_CREATE_FEE) {
-    const add = await useDB()
-      .insert(tables.jobsTable)
-      .values({
+    return await runTxs(async (tx) => {
+      await tx.insert(tables.jobsTable).values({
         id: uuidv4(),
         title: title,
         desc: desc,
@@ -42,13 +42,15 @@ export async function postJobData(event: H3Event<EventHandlerRequest>) {
         createdAt: new Date(),
         anonym: anonym ? 1 : 0,
         owner: user.sub,
-      })
-      .returning()
-      .get();
+      });
 
-    await patchUserCredit(userData.id, userData.credit - (JOB_CREATE_FEE + (anonym ? JOB_ANONYM_FEE : 0)));
-
-    return add;
+      await tx
+        .update(tables.usersTable)
+        .set({
+          credit: userData.credit - (JOB_CREATE_FEE + (anonym ? JOB_ANONYM_FEE : 0)),
+        })
+        .where(eq(tables.usersTable.id, userData.id));
+    });
   } else {
     throw createError({
       statusCode: 402,
